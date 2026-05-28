@@ -1,0 +1,1949 @@
+/* --- Official Futuristic Theme: Bright Blue, Navy, Gold & Cyan --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Kanit', sans-serif;
+}
+
+:root {
+    --primary-neon: #3b82f6;
+    --primary-glow: rgba(59, 130, 246, 0.5);
+    --accent-cyan: #06b6d4;
+    --bg-dark: #0f172a;
+    --card-bg: rgba(30, 41, 59, 0.4);
+    --border-color: rgba(59, 130, 246, 0.2);
+}
+
+/* ตั้งค่าให้ตัวหน้าต่างหลักป้องกันสโครลแยกกันแบบไร้รอยต่อ */
+html, body {
+    height: 100%;
+    overflow: hidden; 
+}
+
+body {
+    background-color: #e0f2fe;
+    background-image: 
+        linear-gradient(135deg, #e0f2fe 0%, #bae6fd 50%, #93c5fd 100%),
+        linear-gradient(rgba(30, 64, 175, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(30, 64, 175, 0.04) 1px, transparent 1px);
+    background-size: 100% 100%, 40px 40px, 40px 40px;
+    color: #0f172a;
+    position: relative;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(212, 163, 89, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(29, 78, 216, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* กล่องคุมการเลื่อนทีละหน้า (Scroll Snapping Container) */
+.snap-container {
+    height: 100vh;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch; /* เลื่อนไหลลื่นบน iOS */
+}
+
+/* --- Navigation Bar --- */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: transparent;
+    border-bottom: 2px solid transparent;
+    z-index: 1000;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 30px 0;
+}
+
+.navbar.scrolled {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 2px solid rgba(212, 163, 89, 0.3);
+    padding: 15px 0;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-space {
+    min-width: 200px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.nav-tagline {
+    font-weight: 500;
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    display: inline-block;
+    
+    /* 🎨 เฉดสี: ทองคำหรูหรา ไล่ไป สีขาวสว่าง และจบด้วยสีเงินประกาย */
+    background: linear-gradient(135deg, #ffd700 0%, #ffffff 60%, #cbd5e1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    
+    /* เงาเรืองแสงโทนอุ่นเพื่อให้เข้ากับสีทอง */
+    filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.3))
+            drop-shadow(1px 1px 2px rgba(11, 17, 34, 0.3));
+
+    /* สถานะเริ่มต้นสำหรับทำ Transition */
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+@keyframes logoGlowPulse {
+    0% {
+        filter: drop-shadow(0 0 6px rgba(59, 130, 246, 0.5))
+                drop-shadow(2px 2px 4px rgba(11, 17, 34, 0.5));
+    }
+    100% {
+        filter: drop-shadow(0 0 14px rgba(59, 130, 246, 0.8))
+                drop-shadow(0 0 20px rgba(29, 78, 216, 0.4))
+                drop-shadow(2px 2px 4px rgba(11, 17, 34, 0.5));
+    }
+}
+
+.navbar.scrolled .nav-tagline {
+    opacity: 1;
+}
+
+/* --- ส่วนหน้าแรกสุด ชื่อพรรคใหญ่กลางจอ (Hero Splash) --- */
+.hero-splash-section {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 120px;
+}
+
+.nav-logo-fixed {
+    font-weight: 700;
+    font-size: 1.6rem;
+    letter-spacing: 2px;
+    display: inline-block;
+    
+    /* 🎨 เฉดสี: น้ำเงินพรรค ไล่ไป ฟ้าสว่าง และตบท้ายด้วยสีเงิน Slate */
+    background: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 50%, #e2e8f0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    
+    /* เอฟเฟกต์เงาเรืองแสงเน้นสีฟ้าและน้ำเงิน */
+    filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.6)) 
+            drop-shadow(2px 2px 4px rgba(11, 17, 34, 0.5));
+    
+    /* อนิเมชั่นเรืองแสงวูบวาบเบาๆ (แก้ไขชื่อฟังก์ชันให้ถูกต้องแล้ว) */
+    animation: logoGlowPulse 4s infinite alternate ease-in-out;
+
+    /* สถานะเริ่มต้นสำหรับทำ Transition */
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.5s ease;
+}
+
+.navbar.scrolled .nav-logo-fixed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.party-logo {
+    font-size: 7rem;
+    font-weight: 700;
+    letter-spacing: 12px;
+    color: #1e3a8a;
+    text-shadow: 0 10px 30px rgba(30, 58, 138, 0.1);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 1;
+    transform: scale(1);
+}
+
+.party-logo.fade-and-shrink {
+    opacity: 0;
+    transform: scale(0.3);
+    pointer-events: none;
+}
+
+.party-slogan {
+    font-size: 1.2rem;
+    letter-spacing: 10px;
+    color: #475569;
+    margin-top: 15px;
+    font-weight: 500;
+    transition: all 0.4s ease;
+}
+
+.party-slogan.fade-out {
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+}
+
+.scroll-indicator {
+    position: absolute;
+    color: #1e3a8a;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    animation: bounce 2s infinite;
+    transition: opacity 0.3s ease;
+}
+
+.scroll-indicator.fade-out { opacity: 0; }
+
+.scroll-indicator .arrow {
+    font-size: 1.5rem;
+    margin-top: 5px;
+}
+
+.arrow {
+    display: inline-block;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+}
+
+/* --- Fullscreen Section Structure --- */
+.fullscreen-section, .official-footer {
+    height: 100vh;
+    width: 100%;
+    scroll-snap-align: start; /* ล็อกหน้าให้หยุดตรงจุดเริ่มต้นเสมอกัน */
+    scroll-snap-stop: always; /* บังคับให้หยุดทีละสไลด์ ห้ามเลื่อนพรวดเดียวผ่าน */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px 40px 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.section-container {
+    width: 100%;
+    max-width: 1100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 80px;
+}
+
+.img-left .section-container { flex-direction: row; }
+.img-right .section-container { flex-direction: row-reverse; }
+
+/* --- รูปภาพและเอฟเฟกต์เฟดล่าง --- */
+.member-image-wrapper {
+    flex: 1;
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    overflow: hidden;
+    position: relative;
+}
+
+.member-image-wrapper::before {
+    content: "";
+    position: absolute;
+    bottom: 15%; width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(212, 163, 89, 0.2) 0%, transparent 70%);
+    z-index: -1;
+}
+
+.member-image-wrapper img {
+    height: 100%;
+    width: auto;
+    object-fit: cover;
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+}
+
+/* --- ส่วนข้อมูลตัวอักษร --- */
+.member-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.role-text {
+    font-size: 0.85rem;
+    letter-spacing: 3px;
+    color: #1d4ed8;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.role-title {
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: #475569;
+    margin-bottom: 5px;
+}
+
+.name {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.2;
+    
+    /* ปรับเป็นแสงเงาเรืองรองสีน้ำเงิน-ขาว ซ้อนกัน 3 ชั้นเพื่อความมีมิติ */
+    text-shadow: 0 0 12px rgba(59, 130, 246, 0.4),  /* แสงสีน้ำเงินเรืองรองรอบตัวอักษร */
+                 0 4px 20px rgba(59, 130, 246, 0.2),  /* แสงฟุ้งกระจายออกด้านข้าง */
+                 0 10px 30px rgba(0, 0, 0, 0.3);      /* มิติเงาเข้มด้านหลังสุดช่วยให้ตัวหนังสืออ่านง่ายขึ้น */
+                 
+    transition: text-shadow 0.3s ease; /* เพิ่มอนิเมชันเผื่อเวลามีการ Hover */
+}
+
+.name:hover {
+    text-shadow: 0 0 20px rgba(59, 130, 246, 0.7),
+                 0 4px 30px rgba(96, 165, 250, 0.4),
+                 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* --- ระบบฟอร์มรับสมัคร --- */
+.bg-dark-blue {
+    background: linear-gradient(135deg, #0b132b 0%, #1c2541 100%);
+    color: #ffffff;
+    position: relative;
+}
+
+.bg-dark-blue::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: 
+        linear-gradient(rgba(212, 163, 89, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(212, 163, 89, 0.03) 1px, transparent 1px);
+    background-size: 30px 30px;
+    z-index: 0;
+}
+
+.form-container {
+    width: 100%;
+    max-width: 750px;
+    position: relative;
+    z-index: 1;
+}
+
+.form-header h2 {
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+    font-weight: 700;
+    margin-bottom: 7px;
+    text-align: center; 
+    
+    /* 1. กำหนดกลุ่มเฉดสีของพรรค (ทอง-น้ำเงิน-ฟ้า-ทอง) มาทำเป็นพื้นหลังตัวอักษร */
+    background: linear-gradient(
+        to right, 
+        #dfb06b 0%, 
+        #82b2ff 30%, 
+        #a3ccff 50%, 
+        #75aaff 70%, 
+        #e2b168 100%
+    );
+    background-size: 200% auto; /* ขยายขนาดเพื่อให้มีพื้นที่ในการเลื่อนแสงสี */
+    
+    /* 2. เจาะให้เฉดสีแสดงผลเฉพาะบนตัวอักษร */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    
+    /* 3. เพิ่มเงาเรืองแสงสีทอง-น้ำเงินจาง ๆ ซ้อนด้านหลัง */
+    filter: drop-shadow(0 2px 8px rgba(59, 130, 246, 0.3))
+            drop-shadow(0 4px 20px rgba(212, 163, 89, 0.2));
+            
+    /* 4. สั่งรันแอนิเมชันให้แสงสีวิ่งเคลื่อนไหวตลอดเวลา */
+    animation: nexoraGlowShift 4s linear infinite;
+}
+
+/* --- อนิเมชันควบคุมการขยับของตำแหน่งแสงสี --- */
+@keyframes nexoraGlowShift {
+    0% {
+        background-position: 0% center;
+    }
+    100% {
+        background-position: 200% center; /* เลื่อนตำแหน่งเพื่อให้สีวิ่งครบรอบ */
+    }
+}
+
+.form-header {
+    text-align: center; /* จัดทุกข้อความในกลุ่มหัวข้อให้อยู่ตรงกลาง */
+    margin-bottom: 5px; /* เพิ่มระยะห่างระหว่างหัวข้อกับตัวกล่องฟอร์มด้านล่าง */
+}
+
+.form-header p {
+    color: #94a3b8;
+    margin-top: 10px;
+    font-size: 1rem;
+}
+
+.official-form {
+    background: rgba(11, 19, 43, 0.75);
+    backdrop-filter: blur(10px);
+    padding: 30px 50px;
+    border-radius: 24px;
+    box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(212, 163, 89, 0.4);
+}
+
+.form-group {
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 0.5fr;
+    gap: 20px;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    color: #cbd5e1;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.form-group input {
+    background: #0b132b;
+    border: 1px solid #334155;
+    padding: 12px;
+    border-radius: 12px;
+    color: #ffffff;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #d4a359;
+    box-shadow: 0 0 12px rgba(212, 163, 89, 0.4);
+}
+
+.btn-submit-official {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+    color: #ffffff;
+    border: 1px solid rgba(212, 163, 89, 0.5);
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 10px;
+    box-shadow: 0 4px 15px rgba(29, 78, 216, 0.3);
+}
+
+.btn-submit-official:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    border-color: #d4a359;
+    box-shadow: 0 8px 25px rgba(212, 163, 89, 0.4);
+    transform: translateY(-2px);
+}
+
+.status-box {
+    margin-top: 25px;
+    padding: 16px;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 1rem;
+}
+.status-box.success { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid #059669; }
+.status-box.error { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #dc2626; }
+.hidden { display: none; }
+
+/* Footer */
+.official-footer {
+    background-color: #050b18;
+    color: #64748b;
+    text-align: center;
+    padding: 40px 20px;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    border-top: 1px solid rgba(212, 163, 89, 0.2);
+}
+
+/* --- การแสดงผลบนมือถือที่ผ่านการตรวจทานละเอียด --- */
+@media (max-width: 900px) {
+    .navbar {
+        padding: 15px 0;
+    }
+    .navbar.scrolled {
+        padding: 10px 0;
+    }
+    .nav-logo-fixed {
+        font-size: 1.3rem;
+    }
+    .party-logo {
+        font-size: 3.8rem;
+        letter-spacing: 6px;
+    }
+    .fullscreen-section {
+        padding: 80px 20px 40px 20px;
+    }
+    .section-container {
+        flex-direction: column !important;
+        gap: 20px;
+        text-align: center;
+    }
+    .member-image-wrapper {
+        height: auto;               /* ปลดล็อกความสูงตายตัวออก */
+        max-height: 45vh;           /* จำกัดไม่ให้รูปกินพื้นที่เกิน 35% ของหน้าจอ */
+        width: 100%;
+        max-width: 280px;           /* บีบความกว้างสูงสุดของรูปไม่ให้ใหญ่เกินไป */
+        margin: 0 auto;             /* จัดให้อยู่ตรงกลางบาลานซ์พอดี */
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        overflow: hidden;
+    }
+    .member-image-wrapper img {
+        width: 100%;                /* บังคับให้รูปขยายเต็มขอบเขตสูงสุด 280px ที่ตั้งไว้ */
+        height: 100%;
+        object-fit: contain;        /* หัวใจสำคัญ: รูปจะย่อลงมาอยู่ในกรอบทั้งหมด โดยไม่โดนตัดขอบ และไม่เสียสัดส่วน */
+        -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%);
+        mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%);
+    }
+    .member-info {
+        margin-top: 10px;
+    }
+    .name {
+        font-size: 2rem;
+    }
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+    .form-grid-2 {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+    .official-form {
+        padding: 25px 20px;
+    }
+    .form-header h2 {
+        font-size: 2rem;
+    }
+    .scroll-indicator {
+        bottom: 75px;
+    }
+}
+
+/* --- อัปเกรดหน้า Hero Splash ให้หรูหรามีระดับ --- */
+.hero-splash-section {
+    position: relative;
+    background: radial-gradient(circle at center, rgba(30, 58, 138, 0.08) 0%, transparent 70%);
+    overflow: hidden;
+}
+
+/* เอฟเฟกต์แสงเรืองรองขนาดยักษ์ตรงกลางจอ */
+.hero-glow-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(147, 197, 253, 0.2) 0%, transparent 70%);
+    filter: blur(50px);
+    pointer-events: none;
+    z-index: -1;
+    animation: pulseGlow 8s infinite alternate ease-in-out;
+}
+
+@keyframes pulseGlow {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+    100% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.9; }
+}
+
+/* โลโก้พรรคเวอร์ชันอัปเกรดมีมิติแสงเงา */
+/* ==========================================================================
+   ✨ NEXORA HERO LOGO - WHITE TEXT WITH LIGHT BLUE SHINE
+   ========================================================================== */
+
+/* ==========================================================================
+   ✨ NEXORA HERO LOGO - WHITE TEXT WITH LIGHT BLUE SHINE (GRAND SIZE)
+   ========================================================================== */
+
+.party-logo {
+    position: relative;
+    display: inline-block;
+    font-weight: 900;
+    text-transform: uppercase;
+    
+    /* 📐 ปรับขนาดตัวอักษรให้ใหญ่ขึ้นเต็มตาอลังการ (ปรับเพิ่ม/ลดจากเลข 8 ได้ครับ) */
+    font-size: 8vw; 
+    line-height: 1.1;
+    
+    /* 🎨 เอฟเฟกต์ไล่เฉดสี: ตัวอักษรสีขาว ขลิบวิ่งผ่านด้วยสีฟ้าสว่างอ่อนๆ */
+    background: linear-gradient(
+        120deg, 
+        #ffffff 0%,    
+        #ffffff 35%,   
+        #60a5fa 50%,   /* 💎 ประกายแสงสีฟ้าอ่อนสว่างที่จะวิ่งผ่าน */
+        #ffffff 65%,   
+        #ffffff 100%   
+    );
+    
+    /* ขยายขนาดฉากหลังเพื่อให้มีพื้นที่สำหรับเลื่อนประกายแสง */
+    background-size: 200% auto;
+    
+    /* เคลือบสีลงบนตัวอักษร */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    
+    /* 🔄 สั่งให้ออนิเมชั่นทำงานวนไปเรื่อยๆ อย่างนุ่มนวล (วิ่งผ่านทุกๆ 4 วินาที) */
+    animation: shineGlowEffect 4s linear infinite;
+    
+    /* 🌌 เงาเรืองแสงด้านหลังสีฟ้าอ่อนนวลตา ช่วยขับให้ตัวหนังสือสีขาวดูมีมิติไม่จมหาย */
+    filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.35))
+            drop-shadow(0 0 40px rgba(59, 130, 246, 0.15));
+}
+
+/* 🔄 KEYFRAMES: ควบคุมการเลื่อนตำแหน่งขยับเฉดสีจากขวาไปซ้าย */
+@keyframes shineGlowEffect {
+    0% {
+        background-position: 200% center; /* ประกายแสงซ่อนอยู่ฝั่งขวา */
+    }
+    100% {
+        background-position: 0% center;   /* ประกายแสงวิ่งทะลุไปฝั่งซ้าย */
+    }
+}
+
+/* ==========================================================================
+   📱 RESPONSIVE: ปรับขนาดโลโก้ให้พอดีเมื่อเปิดบนหน้าจอมือถือ
+   ========================================================================== */
+@media screen and (max-width: 768px) {
+    .party-logo {
+        /* 📐 บนมือถือปรับเป็น 14vw เพื่อให้ตัวหนังสือขยายใหญ่อ่านง่ายเต็มจอแนวตั้ง และไม่ตกขอบ */
+        font-size: 14vw !important; 
+        
+        /* ปรับระยะเงาให้กระชับเข้ากับหน้าจอขนาดเล็ก */
+        filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.4));
+    }
+}
+
+/* เส้นสายและสโลแกนประกอบโลโก้ */
+.slogan-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+.slogan-line {
+    width: 40px;
+    height: 1px;
+    margin-top: 15px;
+    background: linear-gradient(90deg, transparent, #d4a359);
+}
+.slogan-container span:last-child {
+    background: linear-gradient(90deg, #d4a359, transparent);
+}
+
+/* --- ดีไซน์ปุ่มเลื่อนลง (Scroll Indicator) สไตล์พรีเมียม --- */
+.scroll-indicator {
+    position: absolute;
+    bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+}
+
+.scroll-indicator p {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 4px;
+    color: #1e3a8a;
+    opacity: 0.7;
+    text-transform: uppercase;
+    margin-right: -4px;
+}
+
+/* ดีไซน์รูปเมาส์สุดล้ำ */
+.mouse-icon {
+    width: 26px;
+    height: 42px;
+    border: 2px solid #1e3a8a;
+    border-radius: 15px;
+    position: relative;
+    opacity: 0.8;
+}
+
+.mouse-icon .wheel {
+    width: 4px;
+    height: 8px;
+    background-color: #d4a359; /* สีทองเพิ่มความหรูหรา */
+    border-radius: 2px;
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: scrollWheel 1.6s infinite cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes scrollWheel {
+    0% { top: 6px; opacity: 1; height: 8px; }
+    50% { top: 12px; opacity: 0.5; height: 12px; }
+    100% { top: 22px; opacity: 0; height: 6px; }
+}
+
+/* --- รองรับขนาดหน้าจอ Responsive มือถือ --- */
+@media (max-width: 900px) {
+    .party-logo {
+        font-size: 4rem;
+        letter-spacing: 10px;
+        margin-right: -10px;
+    }
+    .party-slogan {
+        font-size: 0.8rem;
+        letter-spacing: 6px;
+        margin-right: -6px;
+    }
+    .slogan-line {
+        width: 20px;
+    }
+    .hero-glow-overlay {
+        width: 300px;
+        height: 300px;
+    }
+    .scroll-indicator {
+        bottom: 75px;
+    }
+}
+
+/* จัดการตำแหน่งของ Label และตัวนับตัวอักษร */
+.label-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.char-counter {
+    font-size: 0.75rem;
+    color: #475569;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
+}
+
+/* ปรับแต่งตัว Textarea ให้ดูล้ำสมัย */
+.official-form textarea#reason {
+    background: rgba(5, 11, 24, 0.85);
+    border: 1px solid rgba(212, 163, 89, 0.2); /* เส้นขอบสีทองบาง ๆ */
+    border-radius: 14px;
+    padding: 16px;
+    color: #ffffff;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    outline: none;
+    resize: vertical; /* ให้ผู้ใช้ขยายความสูงได้เฉพาะแนวตั้ง ไม่ให้ล้นแนวขวาง */
+    min-height: 120px;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* เอฟเฟกต์ตอนที่ผู้ใช้กำลังคลิกพิมพ์ (Focus) */
+.official-form textarea#reason:focus {
+    border-color: #d4a359; /* เปลี่ยนเป็นสีทองสว่าง */
+    background: rgba(11, 19, 43, 0.95);
+    box-shadow: 0 0 20px rgba(212, 163, 89, 0.15), 
+                inset 0 0 10px rgba(29, 78, 216, 0.2); /* เรืองแสงสีน้ำเงินด้านใน */
+}
+
+/* สไตล์ข้อความตัวอย่างภายในช่อง */
+.official-form textarea#reason::placeholder {
+    color: #475569;
+    font-weight: 300;
+}
+
+/* เปลี่ยนสีพื้นหลังหน้าแรก และ หน้าแสดงข้อมูลสมาชิกทุกคนพร้อมกัน */
+#hero-section, 
+.fullscreen-section.img-left, 
+.fullscreen-section.img-right {
+    /* 🎨 สามารถเปลี่ยนโค้ดสีเรียบ หรือ สไตล์ Gradient ด้านล่างนี้ได้ตามต้องการ */
+    background: radial-gradient(circle at center, #0a192f 0%, #020c1b 100%);
+}
+
+/* ==========================================
+   ANIMATED CYBER WAVES FOR MEMBER SECTIONS
+   ========================================== */
+
+/* จัดการ Container หลักของหน้าสมาชิกให้รองรับตำแหน่งคลื่น */
+.fullscreen-section.img-left, 
+.fullscreen-section.img-right {
+    position: relative;
+    overflow: hidden;
+}
+
+/* สร้างโครงสร้างเส้นคลื่นด้วย Pseudo-elements */
+.fullscreen-section.img-left::before,
+.fullscreen-section.img-right::before,
+.fullscreen-section.img-left::after,
+.fullscreen-section.img-right::after {
+    content: "";
+    position: absolute;
+    left: -50%;
+    min-width: 300vw;
+    min-height: 300vw;
+    background-color: transparent;
+    opacity: 0.04; /* ควบคุมความจางเพื่อให้เป็นพื้นหลัง ไม่แย่งซีนรูปคน */
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* คลื่นลูกที่ 1 (เส้นขอบเรืองแสงสีน้ำเงิน) */
+.fullscreen-section.img-left::before,
+.fullscreen-section.img-right::before {
+    bottom: -150vw;
+    border-radius: 43%; /* ทำมุมให้โค้งมนคล้ายคลื่นน้ำ */
+    border: 2px solid #3b82f6;
+    box-shadow: 0 0 40px rgba(59, 130, 246, 0.3);
+    animation: rotateWave 28s infinite linear;
+}
+
+/* คลื่นลูกที่ 2 (เส้นขอบเรืองแสงสีทองพรรค สลับหมุนคนละด้านเพื่อมิติที่ทับซ้อน) */
+.fullscreen-section.img-left::after,
+.fullscreen-section.img-right::after {
+    bottom: -148vw;
+    border-radius: 40%;
+    border: 1.5px solid #d4a359;
+    box-shadow: 0 0 30px rgba(212, 163, 89, 0.2);
+    animation: rotateWaveReverse 35s infinite linear;
+}
+
+/* ดันเนื้อหา ข้อมูล และรูปภาพสมาชิกให้อยู่เหนือชั้นของคลื่น */
+.section-container {
+    position: relative;
+    z-index: 5;
+}
+
+/* --- อนิเมชันการหมุนเพื่อให้เกิดเอฟเฟกต์คลื่นพริ้วไหว --- */
+
+/* หมุนตามเข็มนาฬิกา */
+@keyframes rotateWave {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* หมุนทวนเข็มนาฬิกา (ช่วยให้คลื่นดูมีน้ำหนักตัดกันธรรมชาติ) */
+@keyframes rotateWaveReverse {
+    0% {
+        transform: rotate(360deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+/* Container ควบคุมระยะห่างของโซเชียลสมาชิก */
+.member-social {
+    margin-top: 20px;
+    display: inline-block;
+}
+
+/* สไตล์ปุ่ม Instagram สุดล้ำ */
+.instagram-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(59, 130, 246, 0.3); /* เส้นขอบสีน้ำเงินจาง */
+    border-radius: 30px;
+    padding: 8px 18px;
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* เอฟเฟกต์ตอนเอาเมาส์ไปชี้ (Hover) */
+.instagram-link:hover {
+    color: #ffffff;
+    background: rgba(59, 130, 246, 0.1);
+    border-color: #3b82f6; /* ขอบสว่างขึ้น */
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); /* เรืองแสงสีน้ำเงิน */
+    transform: translateY(-2px); /* ลอยขึ้นเล็กน้อย */
+}
+
+/* ปรับขนาดและสไตล์ของไอคอนไอจีให้สมส่วน */
+.instagram-link .ig-icon {
+    font-size: 1.1rem; /* ปรับขนาดไอคอน */
+    color: #94a3b8;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+/* เมื่อเอาเมาส์ชี้ ปุ่มไอจีจะเปลี่ยนเป็นสีขาวเรืองแสงและเอียงตัว */
+.instagram-link:hover .ig-icon {
+    color: #ffffff;
+    transform: scale(1.2) rotate(15deg); /* ไอคอนขยายขึ้น 1.2 เท่า และเอียงตามเข็มนาฬิกา 15 องศา */
+}
+
+/* เอฟเฟกต์เพิ่มเติมของปุ่ม JOIN US */
+.btn-join-us:hover {
+    transform: translateY(-3px); /* ลอยขึ้นเล็กน้อย */
+    box-shadow: 0 8px 30px rgba(59, 130, 246, 0.6); /* เรืองแสงเข้มขึ้น */
+    filter: brightness(1.1); /* สว่างขึ้นเล็กน้อย */
+}
+
+.btn-join-us:active {
+    transform: translateY(-1px); /* ยุบลงตอนกด */
+}
+
+/* เอฟเฟกต์เมื่อชี้ที่ปุ่มสโครลสมัครสมาชิก */
+.scroll-indicator:hover .scroll-text {
+    color: #3b82f6 !important; /* เปลี่ยนเป็นสีน้ำเงินพรรค */
+    text-shadow: 0 0 10px rgba(59, 130, 246, 0.6);
+}
+.scroll-indicator:hover .mouse-icon {
+    border-color: #3b82f6 !important;
+}
+.scroll-indicator:hover .wheel {
+    background-color: #3b82f6 !important;
+}
+
+/* ==========================================================================
+   📱 MOBILE OPTIMIZATION FOR REGISTER FORM (หน้าจอขนาดเล็กกว่า 768px)
+   ========================================================================== */
+@media screen and (max-width: 768px) {
+
+    #register-section {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    
+    /* 1. ย่อขนาดและความกว้างของกล่องฟอร์มหลัก */
+    #register-section .form-container {
+        width: 100% !important;       /* ขยายกว้าง 100% ชิดขอบจอ */
+        max-width: 100% !important;   /* ปลดล็อกขนาดสูงสุด */
+        margin: 0 !important;          /* ลบขอบด้านนอกออกให้หมด */
+        
+        /* แนะนำให้เหลือ Padding ด้านในไว้นิดหน่อย (เช่น 15px) 
+           เพื่อให้ตัวหนังสือหรือช่องกรอกไม่ไปแปะติดขอบกระจกมือถือจนเกินไปครับ */
+        padding: 16px 15px !important; 
+        
+        /* หากชิดขอบจอแล้ว ไม่อยากให้มีขอบมน สามารถปรับเป็น 0 ได้ครับ */
+        border-radius: 0px !important; 
+    }
+
+    /* 2. ย่อหัวข้อฟอร์ม */
+    #register-section .form-header h2 {
+        font-size: 1.8rem !important; /* ลดขนาดหัวข้อลง */
+        margin-bottom: 15px !important;
+        letter-spacing: 1px !important;
+        margin-top: -50px;
+    }
+
+    /* 3. ปรับระยะห่างของแต่ละกลุ่มคำถาม */
+    #register-section .form-group {
+        margin-bottom: 10px !important; /* ลดช่องว่างระหว่างช่องกรอก */
+    }
+
+    /* 4. ย่อขนาดตัวอักษรของ Label (หัวข้อของแต่ละช่องกรอก) */
+    #register-section .form-group label,
+    #register-section .label-wrapper label {
+        font-size: 0.75rem !important; /* ขนาดตัวอักษรเล็กกะทัดรัด */
+        margin-bottom: 4px !important;
+    }
+    
+    /* ตัวนับตัวอักษรมุมขวา */
+    #register-section .char-counter {
+        font-size: 0.7rem !important;
+    }
+
+    /* 5. ปรับแต่งช่องกรอก Input และ Textarea ให้เล็กลง พิมพ์ง่ายขึ้น */
+    #register-section .form-group input,
+    #register-section .form-group textarea {
+        width: 100% !important;
+        padding: 8px 12px !important; /* ลดความหนาของช่องกรอก */
+        font-size: 0.8rem !important;  /* ลดขนาดตัวอักษรที่พิมพ์และ Placeholder */
+        border-radius: 6px !important;
+        box-sizing: border-box !important; /* ป้องกันไม่ให้ช่องกรอกล้นทะลุกล่อง */
+    }
+    
+    /* ล็อกความสูงช่องเหตุผลไม่ให้ยาวเกินไปบนจอมือถือ */
+    #register-section .form-group textarea {
+        min-height: 55px !important;
+        resize: none;
+    }
+
+    /* 6. ย่อขนาดปุ่มส่งข้อมูล */
+    #register-section .btn-submit-official {
+        padding: 10px 20px !important; /* ลดความใหญ่ของปุ่ม */
+        font-size: 0.85rem !important;  /* ตัวอักษรบนปุ่มเล็กลง */
+        margin-top: 5px !important;
+        border-radius: 8px !important;
+    }
+    
+    /* 7. ปรับการเรียงตัวของกริด (เผื่อกรณีระบบเดิมตั้งเป็น 2 คอลัมน์บนคอม) */
+    #register-section .form-grid,
+    #register-section .form-grid-2 {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 12px !important; /* ✨ เพิ่มช่องไฟ 12px ให้ดูโปร่งโล่ง */
+    }
+}
+
+/* ==========================================================================
+   🏛️ NEXORA GRAND FOOTER STYLE (อลังการ ยิ่งใหญ่ มีมิติ)
+   ========================================================================== */
+
+.grand-footer {
+    position: relative;
+    background: #060b18; /* สีน้ำเงินดำลึก */
+    padding: 60px 20px 30px 20px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+/* 🌌 พื้นหลังเรืองแสงแผ่จากด้านล่าง */
+.footer-glow-bg {
+    position: absolute;
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(29, 78, 216, 0.25) 0%, transparent 70%);
+    filter: blur(50px);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.footer-container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+/* 🛡️ จัดการรูปภาพโลโก้และเอฟเฟกต์ความยิ่งใหญ่ */
+.footer-emblem-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+/* รูปภาพโลโก้หลักของพรรคที่นำมาใส่ */
+.footer-emblem-img {
+    width: 90px;
+    height: 90px;                  /* ล็อกความสูงให้เท่ากับความกว้าง */
+    border-radius: 50%;            /* เปลี่ยนรูปให้เป็นวงกลมสมบูรณ์ */
+    object-fit: cover;             /* ป้องกันไม่ให้รูปภาพยืดหรือบีบแบน */
+    border: 2px solid rgba(59, 130, 246, 0.5); /* เพิ่มขอบเรืองแสงสีฟ้าบางๆ ให้ดูมิติ */
+    
+    /* เอฟเฟกต์เดิม */
+    filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.6));
+    opacity: 0.85;
+    transition: all 0.5s ease;
+    margin-bottom: 20px;
+}
+
+.footer-emblem-wrapper:hover .footer-emblem-img {
+    transform: scale(1.05) rotate(5deg);
+    filter: drop-shadow(0 0 25px rgba(59, 130, 246, 0.9));
+    opacity: 1;
+}
+
+/* ตัวอักษรสะท้อนแสงขนาดใหญ่ด้านหลังโลโก้เพิ่มความโอ่อ่า */
+.footer-bg-text {
+    font-size: 5.5rem;
+    font-weight: 900;
+    letter-spacing: 15px;
+    margin: 0;
+    line-height: 1;
+    background: linear-gradient(360deg, rgba(255,255,255,0.01) 0%, rgba(59, 130, 246, 0.08) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    user-select: none;
+    pointer-events: none;
+}
+
+/* 📑 ปรับแต่งส่วนเนื้อหาตรงกลาง */
+.grand-footer .footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.grand-footer .copyright {
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    color: #64748b;
+    margin: 0;
+}
+
+.grand-footer .footer-divider {
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+    margin: 4px 0;
+}
+
+.grand-footer .developer {
+    font-size: 1.1rem;
+    color: #cbd5e1;
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+.grand-footer .dev-team {
+    font-weight: 700;
+    background: linear-gradient(135deg, #ffffff 0%, #3b82f6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+}
+
+/* 🇹🇭 ข้อความวิสัยทัศน์ตัวเล็กๆ ด้านล่างสุด */
+.footer-vision {
+    font-size: 0.65rem;
+    letter-spacing: 4px;
+    color: #475569;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.03);
+    padding-top: 15px;
+    width: 60%;
+}
+
+/* 📱 รองรับการแสดงผลบนมือถือให้ยังคงสวยงามไม่ล้นจอ */
+@media screen and (max-width: 768px) {
+    .grand-footer {
+        padding: 40px 15px 20px 15px;
+    }
+    .footer-bg-text {
+        font-size: 3rem;
+        letter-spacing: 8px;
+    }
+    .footer-emblem-img {
+        width: 70px;
+    }
+    .footer-vision {
+        width: 90%;
+        letter-spacing: 2px;
+    }
+}
+
+/* ==========================================================================
+   🌌 MEMBER SECTIONS BACKGROUND TEXT (NEXORA BIG TEXT FOR MEMBERS)
+   ========================================================================== */
+
+/* ตั้งค่าเซกชันทุกอันรองรับวัตถุ absolute ลอยอยู่ด้านหลัง */
+/* ✅ วิธีแก้ไข */
+.fullscreen-section {
+    scroll-snap-align: start;
+    scroll-snap-stop: always; /* ✨ บังคับให้หยุดล็อกทีละหน้า ไม่ให้เลื่อนทะลุ */
+}
+
+/* ดันกล่องเนื้อหาและรูปภาพสมาชิกให้ลอยเด่นขึ้นมาข้างหน้าตัวอักษรพื้นหลัง */
+.fullscreen-section .section-container {
+    position: relative;
+    z-index: 2; 
+}
+
+/* สไตล์ตัวอักษรยักษ์พื้นหลังสำหรับหน้าสมาชิก */
+/* ==========================================================================
+   🌌 MEMBER SECTIONS BACKGROUND TEXT (SOFT & FADED GLOW EFFECT)
+   ========================================================================== */
+
+.member-bg-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* จัดให้อยู่กึ่งกลางหน้าจอพอดี */
+    margin: 0;
+    
+    /* ขนาดใหญ่เต็มหน้าจอ */
+    font-size: 15vw; 
+    font-weight: 900;
+    letter-spacing: 30px;
+    line-height: 1;
+    z-index: 1; 
+    
+    /* 🎨 ขั้นตอนที่ 1: ปรับเนื้ออักษรให้จางมากๆ จนแทบกลืนไปกับพื้นหลัง */
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(59, 130, 246, 0.08) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    
+    /* 🪄 ขั้นตอนที่ 2: ทำขอบตัวอักษรให้ค่อยๆ ฟุ้งจางออก (ไม่ให้เป็นเส้นเหลี่ยมคม) */
+    -webkit-text-stroke: 1px rgba(96, 165, 250, 0.15); 
+    
+    /* ✨ ขั้นตอนที่ 3: ใส่เอฟเฟกต์เบลอตัวอักษรเบาๆ เพื่อลบความเหลี่ยมคม 
+       ร่วมกับการซ้อนเงาฟุ้งสเต็ปนุ่มนวล (Soft Glow) */
+    filter: blur(2px)
+            drop-shadow(0 0 20px rgba(59, 130, 246, 1.5))
+            drop-shadow(0 0 60px rgba(59, 130, 246, 1));
+    
+    user-select: none;     
+    pointer-events: none;  
+}
+
+/* 📱 ปรับแต่งความนุ่มนวลเมื่อเปิดบนหน้าจอมือถือ */
+@media screen and (max-width: 768px) {
+    .member-bg-text {
+        font-size: 22vw; 
+        letter-spacing: 12px; 
+        
+        /* บนมือถือปรับให้เบลอน้อยลงนิดนึงเพื่อให้ยังอ่านออก แต่ขอบยังคงฟุ้งมนอยู่ครับ */
+        filter: blur(1.5px) drop-shadow(0 0 15px rgba(59, 130, 246, 0.4));
+        -webkit-text-stroke: 1px rgba(96, 165, 250, 0.2);
+    }
+}
+
+/* ==========================================================================
+   📐 FIX: ขยับข้อความฝั่งซ้ายไม่ให้ชิดขอบจอเกินไป (สำหรับเซกชัน img-right)
+   ========================================================================== */
+
+/* 💻 สำหรับหน้าจอคอมพิวเตอร์ (Desktop) */
+.img-right .member-info {
+    padding-left: 12%; /* ดันข้อความขยับออกมาจากขอบจอฝั่งซ้าย 5% */
+    padding-right: 2%; /* รักษาระยะห่างฝั่งขวาก่อนถึงรูปภาพ */
+}
+
+/* 📱 สำหรับหน้าจอมือถือ (Mobile) */
+@media screen and (max-width: 768px) {
+    .img-right .member-info {
+        /* บนมือถือ ส่วนใหญ่รูปกับข้อความจะเรียงต่อกันเป็นแนวตั้งลงมา 
+           จึงควรปรับให้เว้นระยะห่างเท่ากันทั้งซ้ายและขวาเพื่อให้สมดุลครับ */
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+        text-align: center; /* เผื่ออยากให้ข้อความอยู่กึ่งกลางบนมือถือ */
+    }
+}
+
+/* ==========================================================================
+   🚫 FIX: บังคับให้ชื่อ-นามสกุลของสมาชิกอยู่ในบรรทัดเดียวกันเสมอ ไม่ตกบรรทัด
+   ========================================================================== */
+
+.member-info .name {
+    white-space: nowrap; /* 🚫 ห้ามขึ้นบรรทัดใหม่เด็ดขาด ยาวแค่ไหนก็ให้อยู่แถวเดิม */
+    word-break: keep-all; /* ป้องกันการตัดแบ่งกลางคำ */
+}
+
+/* 📱 ควบคุมขนาดเพิ่มเติมเมื่อแสดงผลบนหน้าจอมือถือ */
+@media screen and (max-width: 768px) {
+    .member-info .name {
+        /* ปรับขนาดฟอนต์บนมือถือลงเล็กน้อย (เช่น 1.5rem ถึง 1.8rem) 
+           เพื่อให้ชื่อที่ยาวมากๆ ยังสามารถยัดลงในหน้าจอมือถือได้พอดีโดยไม่ล้นขอบครับ */
+        font-size: 1.6rem !important; 
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .member-info .name {
+        font-size: 1.4rem !important;
+        letter-spacing: -0.5px; /* บีบระยะห่างตัวอักษรให้แคบลงเพื่อประหยัดพื้นที่ */
+    }
+}
+
+/* ==========================================================================
+   🚨 NEXORA PREMIUM POPUP MODAL (GLASSMORPHISM & NEON GLOW)
+   ========================================================================== */
+
+/* 1. เลเยอร์ม่านหลัง (Overlay Background) */
+.popup-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(7, 11, 22, 0.45); /* มืดโปร่งแสงแบบพอดี */
+    backdrop-filter: blur(12px); /* เอฟเฟกต์กระจกฝ้า เบลอฉากหลังให้โมดอลเด่น */
+    -webkit-backdrop-filter: blur(12px);
+    display: none; /* ซ่อนไว้เริ่มต้น */
+    justify-content: center;
+    align-items: center;
+    z-index: 99999; /* มั่นใจว่าอยู่เหนือทุกเลเยอร์และ Navbar */
+    opacity: 0;
+    transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* สถานะเมื่อป๊อปอัพทำงาน (Active) */
+.popup-modal.active {
+    display: flex;
+    opacity: 1;
+}
+
+/* 2. กล่องเนื้อหาป๊อปอัพ (Popup Container) */
+.popup-content {
+    background: rgba(15, 23, 42, 0.85); /* สีน้ำเงินเข้มข้นนุ่มลึก */
+    border: 1px solid rgba(239, 68, 68, 0.25); /* ขอบแดงไซไฟจาง ๆ */
+    backdrop-filter: blur(20px); /* ซ้อนเลเยอร์กระจกฝ้าชั้นใน */
+    -webkit-backdrop-filter: blur(20px);
+    padding: 45px 35px;
+    border-radius: 24px; /* ขอบมนโค้งสไตล์โมเดิร์นเว็บ */
+    width: 90%;
+    max-width: 440px;
+    text-align: center;
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.7), 
+        0 0 50px rgba(239, 68, 68, 0.1); /* รังสีสีแดงจาง ๆ รอบกล่อง */
+    
+    /* เอฟเฟกต์แอนิเมชันย่อขยายตอนเปิดตัว */
+    transform: scale(0.85) translateY(20px);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* เมื่อสั่งเปิด ให้กล่องขยายขนาดมาที่ปกติ (Pop-in Effect) */
+.popup-modal.active .popup-content {
+    transform: scale(1) translateY(0);
+}
+
+/* 3. ไอคอนกากบาทแจ้งเตือน (Warning Icon) */
+.popup-icon {
+    font-size: 4rem;
+    color: #ff4a4a; /* สีแดงสว่าง */
+    margin-bottom: 22px;
+    animation: popupPulse 2s infinite ease-in-out; /* แอนิเมชันชีพจรเรืองแสง */
+}
+
+/* 4. หัวข้อ (Popup Title) */
+.popup-content h3 {
+    font-family: 'Kanit', sans-serif;
+    color: #ffffff !important;
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 14px;
+    letter-spacing: 0.5px;
+}
+
+/* 5. ข้อความอธิบาย (Description Text) */
+.popup-content p {
+    font-family: 'Kanit', sans-serif;
+    color: #94a3b8 !important; /* สีเทา-ฟ้า สว่าง สบายตา */
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 35px;
+    font-weight: 300;
+}
+
+/* 6. ปุ่มรับทราบ (Action Button) */
+.popup-btn-close {
+    font-family: 'Kanit', sans-serif;
+    background: linear-gradient(135deg, #ff4a4a 0%, #dc2626 100%); /* ไล่เฉดแดงสว่างไปแดงเข้ม */
+    color: #ffffff !important;
+    border: none;
+    padding: 14px 45px;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(255, 74, 74, 0.35); /* นีออนเรืองแสงใต้ปุ่ม */
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    letter-spacing: 0.5px;
+}
+
+/* เอฟเฟกต์ตอนเอาเมาส์ไปชี้ปุ่ม (Hover) */
+.popup-btn-close:hover {
+    transform: translateY(-3px); /* ลอยขึ้นเล็กน้อย */
+    box-shadow: 0 8px 28px rgba(255, 74, 74, 0.55); /* เรืองแสงเข้มขึ้น */
+    filter: brightness(1.1);
+}
+
+/* เอฟเฟกต์ตอนกดปุ่ม (Active / Click) */
+.popup-btn-close:active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(255, 74, 74, 0.4);
+}
+
+/* 7. 🔮 คีย์เฟรมแอนิเมชันไอคอนเรืองแสง (Neon Pulse Animation) */
+@keyframes popupPulse {
+    0% {
+        filter: drop-shadow(0 0 8px rgba(255, 74, 74, 0.4));
+        transform: scale(1);
+    }
+    50% {
+        filter: drop-shadow(0 0 22px rgba(255, 74, 74, 0.75));
+        transform: scale(1.05); /* ขยายตัวนุ่ม ๆ */
+    }
+    100% {
+        filter: drop-shadow(0 0 8px rgba(255, 74, 74, 0.4));
+        transform: scale(1);
+    }
+}
+
+/* --- Layout Header & Controls --- */
+            .carousel-header-wrapper {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-end;
+                width: 90%;
+                max-width: 1200px;
+                margin: 0 auto 30px auto;
+            }
+            .carousel-controls {
+                display: flex;
+                gap: 12px;
+            }
+            .ctrl-btn {
+                background: rgba(255, 255, 255, 0.03);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                color: #fff;
+                width: 48px;
+                height: 48px;
+                border-radius: 50%;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.25s ease;
+            }
+            .ctrl-btn:hover {
+                background: #fff;
+                color: #07090e;
+                border-color: #fff;
+                transform: scale(1.05);
+            }
+
+            /* --- Horizontal Container (เปิดระบบล็อกกึ่งกลางจอ) --- */
+            .horizontal-scroll-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; 
+    
+    /* 📐 จุดปรับระยะห่างของการ์ดใบอื่นๆ ด้านหลัง */
+    gap: 35px; /* ✨ เดิมเป็น 35px ถ้าอยากให้ห่างกันเพิ่มขึ้น ลองขยายเป็น 45px หรือ 50px ครับ */
+    
+    overflow: hidden; /* ล็อกไว้ถูกแล้วครับ เพื่อไม่ให้เห็น Scrollbar ของเบราว์เซอร์โผล่มา */
+    padding: 60px 0;
+    scroll-behavior: smooth;
+    scroll-snap-type: none;
+    -webkit-overflow-scrolling: touch;
+}
+            .horizontal-scroll-container::-webkit-scrollbar { display: none; }
+            .horizontal-scroll-container { -ms-overflow-style: none; scrollbar-width: none; }
+
+            /* --- การ์ดสมาชิก (สไตล์เริ่มต้นสำหรับคนด้านข้างจะถูกย่อเล็กลงและจางลงเล็กน้อย) --- */
+            .horizontal-member-card {
+                flex: 0 0 min(340px, 78vw);
+                display: flex;
+                flex-direction: column;
+                cursor: pointer;
+                opacity: 1; /* fallback: ถ้า JS พังยังเห็นข้อมูลสมาชิก */
+                transform: scale(0.94);
+                pointer-events: auto;
+                transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s ease;
+            }
+            
+            .horizontal-scroll-container.carousel-ready .horizontal-member-card {
+    opacity: 0.35;        
+    transform: scale(0.76);
+    filter: blur(2px);
+    z-index: 1;
+    transform-origin: center center;
+    pointer-events: auto; 
+    
+    /* ⚡ ปรับแอนิเมชันตอนการ์ดหลุดโฟกัสให้ค่อยๆ จางและเบลออย่างนุ่มนวล */
+    transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), 
+                filter 0.6s cubic-bezier(0.22, 1, 0.36, 1); 
+}
+
+.horizontal-scroll-container.carousel-ready .horizontal-member-card.is-focused {
+    transform: scale(1) translateY(-10px) !important; 
+    opacity: 1 !important;
+    filter: blur(0px) !important;
+    z-index: 10 !important; 
+    margin-top: 22px !important; 
+    transform-origin: center center !important;
+    pointer-events: auto !important;
+    
+    /* ⚡ ปรับแอนิเมชันตอนการ์ดเด้งขึ้นมาตรงกลางให้สมูทสอดรับกับความเร็วสไลด์ */
+    transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), 
+                filter 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.horizontal-scroll-container.carousel-ready .horizontal-member-card.is-focused .card-image-wrapper {
+    box-shadow: 
+        0 20px 50px rgba(0, 0, 0, 0.6), 
+        0 0 40px rgba(59, 130, 246, 0.25); /* เงาสีฟ้าเรืองแสงจางๆ */
+    border: 1px solid rgba(59, 130, 246, 0.4); /* เพิ่มเส้นขอบเรืองแสง */
+}
+
+.horizontal-member-card.is-focused .card-info-wrapper h4 {
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(59, 130, 246, 0.6); /* ตัวอักษรเรืองแสง */
+}
+
+            /* 💡 คลาสพิเศษที่จะถูกใส่ให้ "คนที่อยู่ตรงกลางจอ" โดยอัตโนมัติผ่าน JavaScript */
+            .horizontal-member-card.is-focused {
+                opacity: 1;
+                transform: scale(1.04);
+                pointer-events: auto;
+            }
+
+            .card-image-wrapper {
+    position: relative;
+    width: 100%;
+    
+    /* 💡 จุดปรับสัดส่วนความสูง */
+    aspect-ratio: 4 / 5; /* ✨ ลองเปลี่ยนจาก 3 / 4 เป็น 4 / 5 (ภาพจะสั้นลง เป็นสี่เหลี่ยมขึ้น) */
+    /* หรือถ้าอยากให้เป็นสี่เหลี่ยมจัตุรัสเลย สามารถใช้ 1 / 1 ได้ครับ */
+    
+    border-radius: 24px;
+    overflow: hidden;
+    background: #111422;
+}
+            /* เพิ่มเงาเรืองแสงนุ่มๆ ให้กับการ์ดที่อยู่ตรงกลาง */
+            .horizontal-member-card.is-focused .card-image-wrapper {
+                box-shadow: 0 30px 60px rgba(59, 130, 246, 0.15);
+            }
+
+            .card-image-wrapper img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+            
+            .card-hover-blur {
+                position: absolute;
+                inset: 0;
+                background: rgba(7, 9, 14, 0.2);
+                backdrop-filter: blur(6px);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+            .card-hover-blur span {
+                color: #fff;
+                font-family: monospace;
+                font-size: 0.75rem;
+                letter-spacing: 2px;
+                border-bottom: 1px solid #fff;
+                padding-bottom: 4px;
+            }
+            
+            /* อนุญาตให้ทำงาน Hover เฉพาะการ์ดที่อยู่ตรงกลางจอแล้วเท่านั้น */
+            .horizontal-member-card.is-focused:hover .card-hover-blur {
+                opacity: 1;
+            }
+
+            /* ส่วนข้อมูลใต้ภาพ */
+            .card-info-wrapper {
+                margin-top: 20px;
+                position: relative;
+                padding-left: 35px;
+                transition: transform 0.4s ease;
+            }
+            .card-num {
+                position: absolute;
+                left: 0; top: 2px;
+                font-family: monospace;
+                font-size: 0.85rem;
+                color: rgba(255,255,255,0.15);
+                font-weight: bold;
+            }
+            .card-info-wrapper h4 {
+                color: #fff;
+                font-size: 1.15rem;
+                font-weight: 600;
+                margin: 0 0 4px 0;
+            }
+            .card-info-wrapper p {
+                color: rgba(255,255,255,0.4);
+                font-size: 0.8rem;
+                margin: 0;
+                letter-spacing: 0.5px;
+            }
+
+            /* --- Immersive Full-Screen Overlay --- */
+            .profile-overlay-screen {
+                position: fixed;
+                inset: 0;
+                background: rgba(6, 8, 12, 0.85);
+                backdrop-filter: blur(25px);
+                z-index: 9999;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.4s ease;
+                padding: 20px;
+            }
+            .profile-overlay-screen.active { opacity: 1; pointer-events: auto; }
+            .overlay-close-btn { position: absolute; top: 40px; right: 40px; background: transparent; border: none; color: rgba(255,255,255,0.3); font-size: 2.5rem; cursor: pointer; }
+            .overlay-close-btn:hover { color: #fff; }
+            .overlay-content-wrapper { display: flex; width: 100%; max-width: 800px; gap: 50px; align-items: center; transform: scale(0.95); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+            .profile-overlay-screen.active .overlay-content-wrapper { transform: scale(1); }
+            .overlay-media { flex-shrink: 0; width: 280px; aspect-ratio: 4 / 5; border-radius: 24px; overflow: hidden; box-shadow: 0 40px 80px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.06); }
+            .overlay-media img { width: 100%; height: 100%; object-fit: cover; }
+            .overlay-info { flex-grow: 1; }
+            .overlay-dept-tag { font-family: monospace; font-size: 0.75rem; font-weight: 700; color: #3b82f6; letter-spacing: 2px; text-transform: uppercase; background: rgba(59, 130, 246, 0.08); padding: 4px 12px; border-radius: 6px; border: 1px solid rgba(59, 130, 246, 0.15); }
+            .overlay-info h2 { color: #fff; font-size: 2.5rem; font-weight: 700; margin: 15px 0 6px 0; }
+            .overlay-info h3 { color: rgba(255,255,255,0.5); font-size: 1.1rem; font-weight: 400; margin: 0 0 25px 0; }
+            .overlay-divider { width: 50px; height: 2px; background: #3b82f6; margin-bottom: 25px; }
+            .overlay-bio { color: rgba(255,255,255,0.6); font-size: 0.95rem; line-height: 1.7; margin-bottom: 35px; }
+            .overlay-action-btn { display: inline-flex; align-items: center; gap: 12px; background: #fff; color: #07090e; text-decoration: none; font-size: 0.9rem; font-weight: 600; padding: 14px 28px; border-radius: 14px; transition: all 0.25s; }
+            .overlay-action-btn:hover { transform: translateY(-2px); box-shadow: 0 15px 30px rgba(255,255,255,0.15); }
+
+            @media (max-width: 768px) {
+                .horizontal-scroll-container { padding: 24px 0; }
+                .horizontal-member-card { flex: 0 0 min(260px, 80vw); }
+                .overlay-content-wrapper { flex-direction: column; text-align: center; gap: 25px; }
+                .overlay-media { width: 180px; }
+            }
+
+/* --- Styles migrated from index.html inline styles --- */
+.scroll-indicator-custom {
+    cursor: pointer;
+    margin-top: 40px;
+}
+
+.mouse-icon-custom {
+    transform: scale(0.7);
+    transform-origin: center;
+    margin-bottom: -10px;
+}
+
+.scroll-text-custom {
+    letter-spacing: 2px;
+    font-size: 0.5rem;
+    transition: color 0.3s ease;
+    text-align: center;
+}
+
+.member-section-layout {
+    background: #07090e;
+    padding: 60px 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.section-title-clean-left {
+    text-align: left;
+    margin: 0;
+}
+
+.carousel-track-base {
+    display: flex;
+    gap: 0;
+    padding: 0;
+}
+
+.policy-form-container {
+    max-width: 1100px;
+    opacity: 1;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.policy-form-header {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.policy-main-title {
+    font-size: 2.4rem;
+    letter-spacing: 3px;
+    font-weight: 700;
+    background: linear-gradient(to right, #fff, #94a3b8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0;
+}
+
+.policy-main-subtitle {
+    color: var(--primary-neon);
+    font-size: 1rem;
+    margin-top: 5px;
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+.footer-main-layout {
+    padding: 60px 0;
+    position: relative;
+    background: #0b0f19;
+    text-align: center;
+}
+
+.footer-emblem-spacing {
+    margin-bottom: 20px;
+}
+
+.footer-emblem-img-custom {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(59, 130, 246, 0.5);
+}
+
+.footer-bg-text-custom {
+    color: rgba(255, 255, 255, 0.05);
+    font-size: 3rem;
+    margin: 10px 0;
+}
+
+.copyright-custom {
+    font-size: 0.8rem;
+    color: #64748b;
+    letter-spacing: 2px;
+    margin: 0;
+}
+
+.footer-divider-custom {
+    width: 50px;
+    height: 2px;
+    background: var(--primary-neon);
+    margin: 10px auto;
+}
+
+.developer-custom {
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.dev-team-custom {
+    color: var(--accent-cyan);
+    font-weight: 600;
+}
+
+.footer-vision-custom {
+    margin-top: 20px;
+    color: #94a3b8;
+    font-size: 0.9rem;
+    font-weight: 300;
+}
+
+.policy-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 35px;
+    max-height: 55vh;
+    overflow-y: auto;
+    padding-right: 15px;
+}
+
+.policy-grid::-webkit-scrollbar {
+    width: 6px;
+}
+
+.policy-grid::-webkit-scrollbar-thumb {
+    background: var(--primary-neon);
+    border-radius: 10px;
+}
+
+.policy-card {
+    background: var(--card-bg);
+    padding: 24px;
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    backdrop-filter: blur(12px);
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.policy-card:hover {
+    transform: translateY(-4px) scale(1.01);
+    border-color: rgba(6, 182, 212, 0.4);
+    background: rgba(30, 41, 59, 0.6);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 15px rgba(59, 130, 246, 0.1);
+}
+
+.policy-icon-wrap {
+    color: var(--primary-neon);
+    font-size: 1.8rem;
+    background: rgba(59, 130, 246, 0.1);
+    width: 55px;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    flex-shrink: 0;
+}
+
+.policy-card:hover .policy-icon-wrap {
+    color: var(--accent-cyan);
+    background: rgba(6, 182, 212, 0.15);
+    border-color: rgba(6, 182, 212, 0.3);
+}
+
+.policy-number {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.03);
+    font-style: italic;
+    user-select: none;
+    transition: color 0.3s;
+}
+
+.policy-card:hover .policy-number {
+    color: rgba(6, 182, 212, 0.08);
+}
+
+.policy-content h3 {
+    color: #fff;
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.policy-content p {
+    color: #94a3b8;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    font-weight: 300;
+}
+
+@media (max-width: 1024px) {
+    .policy-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* จัดการตำแหน่งกล่องหัวข้อให้อยู่กึ่งกลางและเว้นระยะ */
+.carousel-header-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center; /* จัดกึ่งกลางแนวนอน */
+    align-items: center;     /* จัดกึ่งกลางแนวตั้ง */
+    margin-top: 50px;        /* เว้นพื้นที่หลบแถบด้านบน (Navbar) */
+    margin-bottom: 5px;     /* เว้นระยะห่างก่อนถึงตัวรูปภาพสมาชิก */
+    overflow: hidden;
+}
+
+/* ลูกเล่นเอฟเฟกต์แสงสีและอนิเมชันบนตัวอักษร */
+.simple-carousel-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    position: relative;
+    margin: 0;
+    text-align: center;
+    cursor: default;
+    
+    /* 1. ทำสีข้อความแบบไล่เฉดสีขาว-เงินพรีเมียม */
+    background: linear-gradient(120deg, #ffffff 0%, #ffffff 40%, #60a5fa 50%, #ffffff 60%, #ffffff 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    
+    /* 2. เงาเรืองแสงด้านหลัง (Neon Glow Layout) */
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5)) 
+            drop-shadow(0 0 15px rgba(59, 130, 246, 0.35));
+            
+    /* 3. ใส่แอนิเมชันให้แสงวิ่งผ่าน และเงาเต้นเป็นจังหวะ */
+    animation: 
+        shineTextEffect 4s linear infinite,
+        neonPulseEffect 3s ease-in-out infinite alternate;
+}
+
+/* ==========================================
+   🕹️ ANIMATION TIMELINES (กลไกการเคลื่อนไหวของแสง)
+   ========================================== */
+
+/* แอนิเมชันเลเซอร์แสงวิ่งผ่านตัวอักษรจากซ้ายไปขวา */
+@keyframes shineTextEffect {
+    0% {
+        background-position: 200% center;
+    }
+    100% {
+        background-position: -200% center;
+    }
+}
+
+/* แอนิเมชันเงาเรืองแสงวูบวาบเบาๆ เหมือนแสงนีออนมีชีวิต */
+@keyframes neonPulseEffect {
+    0% {
+        filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5)) 
+                drop-shadow(0 0 10px rgba(59, 130, 246, 0.3));
+    }
+    100% {
+        filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5)) 
+                drop-shadow(0 0 25px rgba(6, 182, 212, 0.6)) /* เพิ่มเฉดสีไซแอนเพิ่มความล้ำ */
+                drop-shadow(0 0 10px rgba(59, 130, 246, 0.4));
+        transform: scale(1.02); /* ขยายขนาดตัวอักษรขึ้น 2% เบาๆ ตามจังหวะหายใจของแสง */
+    }
+}
+
+/* ==========================================
+   📱 RESPONSIVE: ปรับขนาดเมื่ออยู่บนหน้าจอมือถือ
+   ========================================== */
+@media screen and (max-width: 768px) {
+    .carousel-header-wrapper {
+        margin-top: 50px;    /* ลดระยะเว้นด้านบนลงเล็กน้อยบนมือถือ */
+        margin-bottom: 25px;
+    }
+    .simple-carousel-title {
+        font-size: 1.8rem;   /* ย่อขนาดตัวอักษรไม่ให้ล้นจอ */
+        letter-spacing: 1px;
+    }
+}

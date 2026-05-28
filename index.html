@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="th">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>NEXORA - เชื่อมต่อสู่ยุคสมัยใหม่</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet">
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    </head>
+    <body>
+
+        <nav class="navbar" id="navbar">
+            <div class="nav-container">
+                <div class="logo-space" id="logo-space">
+                    <span class="nav-logo-fixed">NEXORA</span>
+                </div>
+                <span class="nav-tagline">OFFICIAL WEBSITE</span>
+            </div>
+        </nav>
+
+        <main class="snap-container">
+
+            <section class="fullscreen-section hero-splash-section"
+                id="hero-section">
+                <div class="hero-glow-overlay"></div>
+                <div class="hero-content">
+                    <h1 class="party-logo" id="party-logo"
+                        data-text="NEXORA">NEXORA</h1>
+                    <div class="slogan-container">
+                        <span class="slogan-line"></span>
+                        <p class="party-slogan"
+                            id="party-slogan">เชื่อมต่อสู่ยุคสมัยใหม่</p>
+                        <span class="slogan-line"></span>
+                    </div>
+
+                    <div class="scroll-indicator scroll-indicator-custom"
+                        onclick="scrollToMembers()">
+                        <div class="mouse-icon mouse-icon-custom">
+                            <div class="wheel"></div>
+                        </div>
+                        <p class="scroll-text scroll-text-custom">
+                            CLICK OR SCROLL <br>TO MEET NEXORA TEAM
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="fullscreen-section member-section-layout"
+                id="member-section">
+
+                <div class="carousel-header-wrapper">
+                    <h2 class="simple-carousel-title"
+                        data-text="สมาชิกพรรค">สมาชิกพรรค</h2>
+                </div>
+
+                <div class="horizontal-scroll-container" id="member-carousel">
+                    <div class="carousel-track carousel-track-base"
+                        id="carousel-track">
+
+                        <div class="horizontal-member-card"
+                            onclick="openMemberOverlay(this)"
+                            data-name="แสงอรุณ ไพโรจน์"
+                            data-role="President | ประธานพรรค"
+                            data-img="members/ประธาน.png"
+                            data-dept="NEXORA #2"
+                            data-bio="สานต่อ สร้างใหม่ ใส่ใจพร้อมก้าวไปสู่อนาคต"
+                            data-ig="sxxzl_p">
+                            <div class="card-image-wrapper">
+                                <img src="members/ประธาน.png" alt="Portrait">
+                                <div
+                                    class="card-hover-blur"><span>INS_PROFILE</span></div>
+                            </div>
+                            <div class="card-info-wrapper">
+                                <span class="card-num">01</span>
+                                <h4>แสงอรุณ ไพโรจน์</h4>
+                                <p>President | ประธานพรรค</p>
+                            </div>
+                        </div>
+
+                        <div class="horizontal-member-card"
+                            onclick="openMemberOverlay(this)"
+                            data-name="ธัญวรัตน์ รัตนกาญจน์"
+                            data-role="Vice President | รองประธานพรรค"
+                            data-img="members/รองประธาน.png"
+                            data-dept="NEXORA #2"
+                            data-bio="สานต่อ สร้างใหม่ ใส่ใจพร้อมก้าวไปสู่อนาคต"
+                            data-ig="yyieeim">
+                            <div class="card-image-wrapper">
+                                <img src="members/รองประธาน.png" alt="Portrait">
+                                <div
+                                    class="card-hover-blur"><span>INS_PROFILE</span></div>
+                            </div>
+                            <div class="card-info-wrapper">
+                                <span class="card-num">02</span>
+                                <h4>ธัญวรัตน์ รัตนกาญจน์</h4>
+                                <p>Vice President | รองประธานพรรค</p>
+                            </div>
+                        </div>
+
+                        <div class="horizontal-member-card"
+                            onclick="openMemberOverlay(this)"
+                            data-name="ปัณณิกา มัณฑะนานนท์"
+                            data-role="Secretary | เลขานุการพรรค"
+                            data-img="members/เลขา.png" data-dept="NEXORA #2"
+                            data-bio="สานต่อ สร้างใหม่ ใส่ใจพร้อมก้าวไปสู่อนาคต"
+                            data-ig="puuuuuuuuuuuu.n">
+                            <div class="card-image-wrapper">
+                                <img src="members/เลขา.png" alt="Portrait">
+                                <div
+                                    class="card-hover-blur"><span>INS_PROFILE</span></div>
+                            </div>
+                            <div class="card-info-wrapper">
+                                <span class="card-num">03</span>
+                                <h4>ปัณณิกา มัณฑะนานนท์</h4>
+                                <p>Secretary | เลขานุการพรรค</p>
+                            </div>
+                        </div>
+
+                        <div class="horizontal-member-card"
+                            onclick="openMemberOverlay(this)"
+                            data-name="ปภังกร มณีช่วงกุล"
+                            data-role="NEXORA Members | สมาชิกพรรค"
+                            data-img="members/nexora.jpg" data-dept="NEXORA #2"
+                            data-bio="สานต่อ สร้างใหม่ ใส่ใจพร้อมก้าวไปสู่อนาคต"
+                            data-ig="px_pxgkxn">
+                            <div class="card-image-wrapper">
+                                <img src="members/nexora.jpg" alt="Portrait">
+                                <div
+                                    class="card-hover-blur"><span>INS_PROFILE</span></div>
+                            </div>
+                            <div class="card-info-wrapper">
+                                <span class="card-num">04</span>
+                                <h4>ปภังกร มณีช่วงกุล</h4>
+                                <p>NEXORA Members | สมาชิกพรรค</p>
+                            </div>
+                        </div>
+
+                        <div class="horizontal-member-card"
+                            onclick="openMemberOverlay(this)"
+                            data-name="วิชาญกิจ วรธรรมไพบูลย์"
+                            data-role="NEXORA Members | สมาชิกพรรค"
+                            data-img="members/nexora.jpg" data-dept="NEXORA #2"
+                            data-bio="สานต่อ สร้างใหม่ ใส่ใจพร้อมก้าวไปสู่อนาคต"
+                            data-ig="Andrewmoodeng">
+                            <div class="card-image-wrapper">
+                                <img src="members/nexora.jpg" alt="Portrait">
+                                <div
+                                    class="card-hover-blur"><span>INS_PROFILE</span></div>
+                            </div>
+                            <div class="card-info-wrapper">
+                                <span class="card-num">05</span>
+                                <h4>วิชาญกิจ วรธรรมไพบูลย์</h4>
+                                <p>NEXORA Members | สมาชิกพรรค</p>
+                            </div>
+                        </div>
+
+                        <div class="horizontal-member-card"
+                            onclick="openMemberOverlay(this)"
+                            data-name="ญารีญ่า ล่าหับ"
+                            data-role="NEXORA Members | สมาชิกพรรค"
+                            data-img="members/nexora.jpg" data-dept="NEXORA #2"
+                            data-bio="สานต่อ สร้างใหม่ ใส่ใจพร้อมก้าวไปสู่อนาคต"
+                            data-ig="yaya._.aiyaa">
+                            <div class="card-image-wrapper">
+                                <img src="members/nexora.jpg" alt="Portrait">
+                                <div
+                                    class="card-hover-blur"><span>INS_PROFILE</span></div>
+                            </div>
+                            <div class="card-info-wrapper">
+                                <span class="card-num">06</span>
+                                <h4>ญารีญ่า ล่าหับ</h4>
+                                <p>NEXORA Members | สมาชิกพรรค</p>
+                            </div>
+                        </div>
+
+                        <div class="horizontal-member-card"
+                            onclick="openMemberOverlay(this)"
+                            data-name="จีราภรณ์ หนูขาว"
+                            data-role="NEXORA Members | สมาชิกพรรค"
+                            data-img="members/nexora.jpg"
+                            data-dept="NEXORA #2"
+                            data-bio="สานต่อ สร้างใหม่ ใส่ใจพร้อมก้าวไปสู่อนาคต"
+                            data-ig="piin_luv">
+                            <div class="card-image-wrapper">
+                                <img src="members/nexora.jpg" alt="Portrait">
+                                <div
+                                    class="card-hover-blur"><span>INS_PROFILE</span></div>
+                            </div>
+                            <div class="card-info-wrapper">
+                                <span class="card-num">07</span>
+                                <h4>จีราภรณ์ หนูขาว</h4>
+                                <p>NEXORA Members | สมาชิกพรรค</p>
+                            </div>
+                        </div>
+
+                        <div class="horizontal-member-card"
+                            onclick="openMemberOverlay(this)"
+                            data-name="อรวรรยา ปานุเวช" data-role="NEXORA Members | สมาชิกพรรค"
+                            data-img="members/nexora.jpg" data-dept="NEXORA #2"
+                            data-bio="สานต่อ สร้างใหม่ ใส่ใจพร้อมก้าวไปสู่อนาคต"
+                            data-ig="orawanya.ji">
+                            <div class="card-image-wrapper">
+                                <img src="members/nexora.jpg" alt="Portrait">
+                                <div
+                                    class="card-hover-blur"><span>INS_PROFILE</span></div>
+                            </div>
+                            <div class="card-info-wrapper">
+                                <span class="card-num">08</span>
+                                <h4>อรวรรยา ปานุเวช</h4>
+                                <p>NEXORA Members | สมาชิกพรรค</p>
+                            </div>
+                        </div>
+
+                        <div class="horizontal-member-card"
+                            onclick="openMemberOverlay(this)"
+                            data-name="ยศวดี ศรีทอง" data-role="NEXORA Members | สมาชิกพรรค"
+                            data-img="members/nexora.jpg" data-dept="NEXORA #2"
+                            data-bio="สานต่อ สร้างใหม่ ใส่ใจพร้อมก้าวไปสู่อนาคต"
+                            data-ig="ribbxn_z">
+                            <div class="card-image-wrapper">
+                                <img src="members/nexora.jpg" alt="Portrait">
+                                <div
+                                    class="card-hover-blur"><span>INS_PROFILE</span></div>
+                            </div>
+                            <div class="card-info-wrapper">
+                                <span class="card-num">09</span>
+                                <h4>ยศวดี ศรีทอง</h4>
+                                <p>NEXORA Members | สมาชิกพรรค</p>
+                            </div>
+                        </div>
+
+                        <div class="horizontal-member-card"
+                            onclick="openMemberOverlay(this)"
+                            data-name="เสาร์วดี -" data-role="NEXORA Members | สมาชิกพรรค"
+                            data-img="members/nexora.jpg"
+                            data-dept="NEXORA #2"
+                            data-bio="สานต่อ สร้างใหม่ ใส่ใจพร้อมก้าวไปสู่อนาคต"
+                            data-ig="saowx.de">
+                            <div class="card-image-wrapper">
+                                <img src="members/nexora.jpg" alt="Portrait">
+                                <div
+                                    class="card-hover-blur"><span>INS_PROFILE</span></div>
+                            </div>
+                            <div class="card-info-wrapper">
+                                <span class="card-num">10</span>
+                                <h4>เสาร์วดี -</h4>
+                                <p>NEXORA Members | สมาชิกพรรค</p>
+                            </div>
+                        </div>
+
+                        <div class="horizontal-member-card"
+                            onclick="openMemberOverlay(this)"
+                            data-name="กิตติพัทธ์ แซ่ลิ่ม"
+                            data-role="NEXORA Members | สมาชิกพรรค"
+                            data-img="members/nexora.jpg" data-dept="NEXORA #2"
+                            data-bio="สานต่อ สร้างใหม่ ใส่ใจพร้อมก้าวไปสู่อนาคต"
+                            data-ig="not_kitti.pat">
+                            <div class="card-image-wrapper">
+                                <img src="members/nexora.jpg" alt="Portrait">
+                                <div
+                                    class="card-hover-blur"><span>INS_PROFILE</span></div>
+                            </div>
+                            <div class="card-info-wrapper">
+                                <span class="card-num">11</span>
+                                <h4>กิตติพัทธ์ แซ่ลิ่ม</h4>
+                                <p>NEXORA Members | สมาชิกพรรค</p>
+                            </div>
+                        </div>
+
+                        <div class="horizontal-member-card"
+                            onclick="openMemberOverlay(this)"
+                            data-name="ธีรัตม์ ทองชูช่วย"
+                            data-role="NEXORA Members | สมาชิกพรรค"
+                            data-img="members/nexora.jpg" data-dept="NEXORA #2"
+                            data-bio="สานต่อ สร้างใหม่ ใส่ใจพร้อมก้าวไปสู่อนาคต"
+                            data-ig="tenn_tn10">
+                            <div class="card-image-wrapper">
+                                <img src="members/nexora.jpg" alt="Portrait">
+                                <div
+                                    class="card-hover-blur"><span>INS_PROFILE</span></div>
+                            </div>
+                            <div class="card-info-wrapper">
+                                <span class="card-num">12</span>
+                                <h4>ธีรัตม์ ทองชูช่วย</h4>
+                                <p>NEXORA Members | สมาชิกพรรค</p>
+                            </div>
+                        </div>
+
+                        <div class="horizontal-member-card"
+                            onclick="openMemberOverlay(this)"
+                            data-name="อธิวัชร์ เภอโส๊ะ"
+                            data-role="NEXORA Members | สมาชิกพรรค"
+                            data-img="members/nexora.jpg" data-dept="NEXORA #2"
+                            data-bio="สานต่อ สร้างใหม่ ใส่ใจพร้อมก้าวไปสู่อนาคต"
+                            data-ig="Thxmgojiraaaa">
+                            <div class="card-image-wrapper">
+                                <img src="members/nexora.jpg" alt="Portrait">
+                                <div
+                                    class="card-hover-blur"><span>INS_PROFILE</span></div>
+                            </div>
+                            <div class="card-info-wrapper">
+                                <span class="card-num">13</span>
+                                <h4>อธิวัชร์ เภอโส๊ะ</h4>
+                                <p>NEXORA Members | สมาชิกพรรค</p>
+                            </div>
+                        </div>
+
+                        <div class="horizontal-member-card"
+                            onclick="openMemberOverlay(this)"
+                            data-name="อรสา กิ้มลั่น"
+                            data-role="NEXORA Members | สมาชิกพรรค"
+                            data-img="members/nexora.jpg" data-dept="NEXORA #2"
+                            data-bio="สานต่อ สร้างใหม่ ใส่ใจพร้อมก้าวไปสู่อนาคต"
+                            data-ig="m1lkmx_">
+                            <div class="card-image-wrapper">
+                                <img src="members/nexora.jpg" alt="Portrait">
+                                <div
+                                    class="card-hover-blur"><span>INS_PROFILE</span></div>
+                            </div>
+                            <div class="card-info-wrapper">
+                                <span class="card-num">14</span>
+                                <h4>อรสา กิ้มลั่น</h4>
+                                <p>NEXORA Members | สมาชิกพรรค</p>
+                            </div>
+                        </div>
+
+                        <div class="horizontal-member-card"
+                            onclick="openMemberOverlay(this)"
+                            data-name="เมิรปาร์ตี้ ณ สงคราม"
+                            data-role="NEXORA Members | สมาชิกพรรค"
+                            data-img="members/nexora.jpg"
+                            data-dept="NEXORA #2"
+                            data-bio="สานต่อ สร้างใหม่ ใส่ใจพร้อมก้าวไปสู่อนาคต"
+                            data-ig="Snurfle_zzzzz">
+                            <div class="card-image-wrapper">
+                                <img src="members/nexora.jpg" alt="Portrait">
+                                <div
+                                    class="card-hover-blur"><span>INS_PROFILE</span></div>
+                            </div>
+                            <div class="card-info-wrapper">
+                                <span class="card-num">15</span>
+                                <h4>เมิรปาร์ตี้ ณ สงคราม</h4>
+                                <p>NEXORA Members | สมาชิกพรรค</p>
+                            </div>
+                        </div>
+
+                        <div class="horizontal-member-card"
+                            onclick="openMemberOverlay(this)"
+                            data-name="เขมจิรา ธูปเอี่ยม"
+                            data-role="NEXORA Members | สมาชิกพรรค"
+                            data-img="members/nexora.jpg" data-dept="NEXORA #2"
+                            data-bio="สานต่อ สร้างใหม่ ใส่ใจพร้อมก้าวไปสู่อนาคต"
+                            data-ig="Khemjira_c">
+                            <div class="card-image-wrapper">
+                                <img src="members/nexora.jpg" alt="Portrait">
+                                <div
+                                    class="card-hover-blur"><span>INS_PROFILE</span></div>
+                            </div>
+                            <div class="card-info-wrapper">
+                                <span class="card-num">16</span>
+                                <h4>เขมจิรา ธูปเอี่ยม</h4>
+                                <p>NEXORA Members | สมาชิกพรรค</p>
+                            </div>
+                        </div>
+
+                        <div class="horizontal-member-card"
+                            onclick="openMemberOverlay(this)"
+                            data-name="พรชิตา สุวรรณจินดา"
+                            data-role="NEXORA Members | สมาชิกพรรค"
+                            data-img="members/nexora.jpg" data-dept="NEXORA #2"
+                            data-bio="สานต่อ สร้างใหม่ ใส่ใจพร้อมก้าวไปสู่อนาคต"
+                            data-ig="pzhrt._">
+                            <div class="card-image-wrapper">
+                                <img src="members/nexora.jpg" alt="Portrait">
+                                <div
+                                    class="card-hover-blur"><span>INS_PROFILE</span></div>
+                            </div>
+                            <div class="card-info-wrapper">
+                                <span class="card-num">17</span>
+                                <h4>พรชิตา สุวรรณจินดา</h4>
+                                <p>NEXORA Members | สมาชิกพรรค</p>
+                            </div>
+                        </div>
+
+                        <div class="horizontal-member-card"
+                            onclick="openMemberOverlay(this)"
+                            data-name="ณิชารีย์ รัตนเกษร"
+                            data-role="NEXORA Members | สมาชิกพรรค"
+                            data-img="members/nexora.jpg" data-dept="NEXORA #2"
+                            data-bio="สานต่อ สร้างใหม่ ใส่ใจพร้อมก้าวไปสู่อนาคต"
+                            data-ig="_nichxree">
+                            <div class="card-image-wrapper">
+                                <img src="members/nexora.jpg" alt="Portrait">
+                                <div
+                                    class="card-hover-blur"><span>INS_PROFILE</span></div>
+                            </div>
+                            <div class="card-info-wrapper">
+                                <span class="card-num">18</span>
+                                <h4>ณิชารีย์ รัตนเกษร</h4>
+                                <p>NEXORA Members | สมาชิกพรรค</p>
+                            </div>
+                        </div>
+
+                        <div class="horizontal-member-card"
+                            onclick="openMemberOverlay(this)"
+                            data-name="อานาตี ยอดแก้ว" data-role="NEXORA Members | สมาชิกพรรค"
+                            data-img="members/nexora.jpg" data-dept="NEXORA #2"
+                            data-bio="สานต่อ สร้างใหม่ ใส่ใจพร้อมก้าวไปสู่อนาคต"
+                            data-ig="natee_yk">
+                            <div class="card-image-wrapper">
+                                <img src="members/nexora.jpg" alt="Portrait">
+                                <div
+                                    class="card-hover-blur"><span>INS_PROFILE</span></div>
+                            </div>
+                            <div class="card-info-wrapper">
+                                <span class="card-num">19</span>
+                                <h4>อานาตี ยอดแก้ว</h4>
+                                <p>NEXORA Members | สมาชิกพรรค</p>
+                            </div>
+                        </div>
+
+                        <div class="horizontal-member-card"
+                            onclick="openMemberOverlay(this)"
+                            data-name="ชานน ตลาดกลาง" data-role="NEXORA Members | สมาชิกพรรค"
+                            data-img="members/nexora.jpg" data-dept="NEXORA #2"
+                            data-bio="สานต่อ สร้างใหม่ ใส่ใจพร้อมก้าวไปสู่อนาคต"
+                            data-ig="zhilinqz._">
+                            <div class="card-image-wrapper">
+                                <img src="members/nexora.jpg" alt="Portrait">
+                                <div
+                                    class="card-hover-blur"><span>INS_PROFILE</span></div>
+                            </div>
+                            <div class="card-info-wrapper">
+                                <span class="card-num">20</span>
+                                <h4>ชานน ตลาดกลาง</h4>
+                                <p>NEXORA Members | สมาชิกพรรค</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div id="immersive-profile-overlay"
+                    class="profile-overlay-screen">
+                    <button class="overlay-close-btn"
+                        onclick="closeMemberOverlay()">&times;</button>
+                    <div class="overlay-content-wrapper">
+                        <div class="overlay-media"><img id="overlay-img" src
+                                alt="Portrait"></div>
+                        <div class="overlay-info">
+                            <span id="overlay-dept"
+                                class="overlay-dept-tag">DEPARTMENT</span>
+                            <h2 id="overlay-name">NAME</h2>
+                            <h3 id="overlay-role">ROLE</h3>
+                            <div class="overlay-divider"></div>
+                            <p id="overlay-bio">BIOGRAPHY</p>
+                            <div class="overlay-actions">
+                                <a id="overlay-ig" href="#" target="_blank"
+                                    class="overlay-action-btn">
+                                    <span>Connect on Instagram</span><i
+                                        class="fa-solid fa-arrow-up-right-from-square"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <section class="fullscreen-section bg-dark-blue"
+                id="policy-section">
+                <div class="form-container policy-form-container">
+                    <div class="form-header policy-form-header">
+                        <h2 class="policy-main-title">NEXORA 10 POLICIES</h2>
+                        <p
+                            class="policy-main-subtitle">ยุทธศาสตร์การขับเคลื่อนพรรคเพื่อยกระดับสู่ยุคสมัยใหม่</p>
+                    </div>
+
+                    <div class="policy-grid">
+                        <div class="policy-card">
+                            <div class="policy-number">01</div>
+                            <div class="policy-icon-wrap"><i
+                                    class="fa-solid fa-rocket"></i></div>
+                            <div class="policy-content">
+                                <h3>สานต่อ สร้างใหม่</h3>
+                                <p>มุ่งมั่นพัฒนาโครงสร้างและรากฐานระบบเดิมที่มีประสิทธิภาพ
+                                    พร้อมทั้งริเริ่มนวัตกรรมใหม่ๆ
+                                    เพื่อตอบรับความผันผวนของโลกยุคดิจิทัล</p>
+                            </div>
+                        </div>
+                        <div class="policy-card">
+                            <div class="policy-number">02</div>
+                            <div class="policy-icon-wrap"><i
+                                    class="fa-solid fa-users-gear"></i></div>
+                            <div class="policy-content">
+                                <h3>ใส่ใจทุกเสียงสมาชิก</h3>
+                                <p>เปิดแพลตฟอร์มรับฟังความคิดเห็นจากสมาชิกทุกระดับชั้นอย่างเท่าเทียม
+                                    บนพื้นฐานความโปร่งใส ตรวจสอบได้
+                                    และสามารถเข้าถึงได้จริง</p>
+                            </div>
+                        </div>
+                        <div class="policy-card">
+                            <div class="policy-number">03</div>
+                            <div class="policy-icon-wrap"><i
+                                    class="fa-solid fa-network-wired"></i></div>
+                            <div class="policy-content">
+                                <h3>แพลตฟอร์มบริหารงานอัจฉริยะ</h3>
+                                <p>นำระบบ Cloud
+                                    และการประมวลผลข้อมูลที่แม่นยำเข้ามาขับเคลื่อนกิจกรรม
+                                    มอบความสะดวกรวดเร็วในการทำงานของพรรค</p>
+                            </div>
+                        </div>
+                        <div class="policy-card">
+                            <div class="policy-number">04</div>
+                            <div class="policy-icon-wrap"><i
+                                    class="fa-solid fa-graduation-cap"></i></div>
+                            <div class="policy-content">
+                                <h3>ศูนย์พัฒนาทักษะแห่งอนาคต</h3>
+                                <p>จัดตั้งโครงการแลกเปลี่ยนและเวิร์กช็อปเพื่อเสริมสร้างทักษะแห่งศตวรรษที่
+                                    21 (Next-Gen Skills) เช่น เทคโนโลยี
+                                    ซอฟต์สกิล และภาษา</p>
+                            </div>
+                        </div>
+                        <div class="policy-card">
+                            <div class="policy-number">05</div>
+                            <div class="policy-icon-wrap"><i
+                                    class="fa-solid fa-shield-halved"></i></div>
+                            <div class="policy-content">
+                                <h3>ความปลอดภัยและสวัสดิการยุคใหม่</h3>
+                                <p>สร้างมาตรฐานการดูแลสวัสดิภาพ
+                                    ความปลอดภัยในพื้นที่ทำงาน
+                                    และสิทธิ์การปกป้องข้อมูลส่วนบุคคลที่รัดกุมตามมาตรฐานสากล</p>
+                            </div>
+                        </div>
+                        <div class="policy-card">
+                            <div class="policy-number">06</div>
+                            <div class="policy-icon-wrap"><i
+                                    class="fa-solid fa-seedling"></i></div>
+                            <div class="policy-content">
+                                <h3>องค์กรสีเขียวที่ยั่งยืน</h3>
+                                <p>ลดการใช้กระดาษ (Paperless)
+                                    มุ่งเน้นการใช้พลังงานสะอาด
+                                    และรณรงค์กิจกรรมที่เป็นมิตรต่อสิ่งแวดล้อมอย่างเป็นรูปธรรม</p>
+                            </div>
+                        </div>
+                        <div class="policy-card">
+                            <div class="policy-number">07</div>
+                            <div class="policy-icon-wrap"><i
+                                    class="fa-solid fa-handshake"></i></div>
+                            <div class="policy-content">
+                                <h3>สร้างเครือข่ายพันธมิตร</h3>
+                                <p>ขยายความร่วมมือกับองค์กรภายนอกและสถาบันชั้นนำ
+                                    เพื่อสร้างโอกาสทางอาชีพและการฝึกงานที่มีคุณภาพให้กับสมาชิก</p>
+                            </div>
+                        </div>
+                        <div class="policy-card">
+                            <div class="policy-number">08</div>
+                            <div class="policy-icon-wrap"><i
+                                    class="fa-solid fa-scale-balanced"></i></div>
+                            <div class="policy-content">
+                                <h3>ความหลากหลายและเท่าเทียม</h3>
+                                <p>สนับสนุนเสรีภาพและการยอมรับในความแตกต่างทุกรูปแบบ
+                                    สร้างพื้นที่ปลอดภัยที่ไร้การตัดสินเพื่อผลักดันศักยภาพที่แท้จริง</p>
+                            </div>
+                        </div>
+                        <div class="policy-card">
+                            <div class="policy-number">09</div>
+                            <div class="policy-icon-wrap"><i
+                                    class="fa-solid fa-coins"></i></div>
+                            <div class="policy-content">
+                                <h3>กองทุนนวัตกรรมสร้างสรรค์</h3>
+                                <p>จัดสรรงบประมาณสนับสนุนสำหรับไอเดียหรือโครงการของสมาชิกที่มีความคิดริเริ่มยอดเยี่ยม
+                                    เพื่อเปลี่ยนจินตนาการให้เป็นความจริง</p>
+                            </div>
+                        </div>
+                        <div class="policy-card">
+                            <div class="policy-number">10</div>
+                            <div class="policy-icon-wrap"><i
+                                    class="fa-solid fa-globe"></i></div>
+                            <div class="policy-content">
+                                <h3>ก้าวไกลสู่ระดับสากล</h3>
+                                <p>ปรับโฉมภาพลักษณ์และเชื่อมต่อวิสัยทัศน์ของพรรคให้เข้ากับเวทีระดับสากล
+                                    พร้อมสร้างแรงบันดาลใจและมาตรฐานใหม่ให้สังคม</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="official-footer grand-footer footer-main-layout">
+                <div class="footer-glow-bg"></div>
+                <div class="footer-container">
+                    <div class="footer-emblem-wrapper footer-emblem-spacing">
+                        <img src="members/nexora.jpg" alt="NEXORA Emblem"
+                            class="footer-emblem-img footer-emblem-img-custom"
+                            onerror="this.style.display='none'">
+                        <h2
+                            class="footer-bg-text footer-bg-text-custom">NEXORA</h2>
+                    </div>
+                    <div class="footer-content">
+                        <p class="copyright copyright-custom">DESIGNED AND
+                            DEVELOPED BY</p>
+                        <div class="footer-divider footer-divider-custom"></div>
+                        <p class="developer developer-custom">พรรค <span
+                                class="dev-team dev-team-custom">NEXORA</span></p>
+                    </div>
+                    <div class="footer-vision footer-vision-custom">
+                        <span>สานต่อ สร้างใหม่ ใส่ใจพร้อมก้าวไปสู่อนาคต</span>
+                    </div>
+                </div>
+            </footer>
+
+        </main>
+
+        <script src="script.js"></script>
+    </body>
+</html>
