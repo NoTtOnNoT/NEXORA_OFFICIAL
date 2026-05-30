@@ -330,6 +330,9 @@ function dragEnd() {
 /**
  * ฟังก์ชันเปิดหน้าต่างรายละเอียดแบบเต็มจอ
  */
+/**
+ * ฟังก์ชันเปิดหน้าต่างรายละเอียดแบบเต็มจอ
+ */
 function openMemberOverlay(element) {
     if (!element || isDragging) return; // หากกำลังทำการลากจูงอยู่ จะไม่เปิดป๊อปอัปขึ้นมา
     
@@ -362,17 +365,33 @@ function openMemberOverlay(element) {
     const targetName = document.getElementById('overlay-name');
     const targetRole = document.getElementById('overlay-role');
     const targetBio = document.getElementById('overlay-bio');
+    
+    // ดึง Element ปุ่มลิงก์ และ Text Span ด้านในชื่อไอจีมาควบคุม
     const targetIg = document.getElementById('overlay-ig');
+    const targetIgUsername = document.getElementById('overlay-ig-username');
 
     if (targetImg) targetImg.src = imgSrc || 'members/nexora.jpg';
     if (targetDept) targetDept.innerText = dept || 'DEPARTMENT';
     if (targetName) targetName.innerText = name || 'NAME';
     if (targetRole) targetRole.innerText = role || 'ROLE';
     if (targetBio) targetBio.innerText = bio || 'BIOGRAPHY';
+    
+    /* 🛠️ อัปเดตระบบลิงก์และชื่อ Instagram แบบใหม่ */
     if (targetIg) {
-        const cleanIg = ig.replace('@', '').trim();
-        targetIg.href = cleanIg ? `https://instagram.com/${cleanIg}` : '#';
-        targetIg.style.display = cleanIg ? 'inline-flex' : 'none';
+        const cleanIg = ig.replace('@', '').trim(); // ลบเครื่องหมาย @ ออกก่อนเพื่อเอาไปทำ Link URL ที่ถูกต้อง
+        
+        if (cleanIg) {
+            targetIg.href = `https://instagram.com/${cleanIg}`;
+            targetIg.style.display = 'inline-flex'; // เปิดการแสดงผลปุ่ม
+            
+            // เปลี่ยนข้อความชื่อไอจีข้างในแท็ก Span ให้ตรงตามแต่ละบุคคล
+            if (targetIgUsername) {
+                targetIgUsername.innerText = `@${cleanIg}`; 
+            }
+        } else {
+            // ถ้าคนนี้ไม่มีข้อมูลไอจี ให้ซ่อนปุ่มลิงก์นี้ไปเลย
+            targetIg.style.display = 'none';
+        }
     }
 
     const overlayScreen = document.getElementById('immersive-profile-overlay');

@@ -43,6 +43,25 @@ body::before {
     z-index: 0;
 }
 
+/* บล็อกการเกิดสีฟ้าไฮไลท์เวลาคลิก/แตะ (สำหรับปุ่ม, ลิงก์ และองค์ประกอบต่างๆ) */
+* {
+    -webkit-tap-highlight-color: transparent; /* บล็อกสีฟ้าตอนแตะบนหน้าจอมือถือ (iOS/Android) */
+}
+
+/* บล็อกการลากคลุมตัวอักษรเป็นสีฟ้า (User Selection) */
+body {
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none;     /* IE 10 และ Edge */
+    user-select: none;         /* Standard syntax (Chrome, Firefox, Opera) */
+}
+
+/* ข้อยกเว้น: ปล่อยให้อินพุตพิมพ์ข้อความและกล่องข้อความยังสามารถเลือกหรือลากคลุมได้ตามปกติ */
+input, textarea {
+    -webkit-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
 /* กล่องคุมการเลื่อนทีละหน้า (Scroll Snapping Container) */
 .snap-container {
     height: 100vh;
@@ -1418,14 +1437,6 @@ body::before {
 }
 
 /* --- Layout Header & Controls --- */
-            .carousel-header-wrapper {
-                display: flex;
-                justify-content: space-between;
-                align-items: flex-end;
-                width: 90%;
-                max-width: 1200px;
-                margin: 0 auto 30px auto;
-            }
             .carousel-controls {
                 display: flex;
                 gap: 12px;
@@ -1629,8 +1640,21 @@ body::before {
             .overlay-info h2 { color: #fff; font-size: 2.5rem; font-weight: 700; margin: 15px 0 6px 0; }
             .overlay-info h3 { color: rgba(255,255,255,0.5); font-size: 1.1rem; font-weight: 400; margin: 0 0 25px 0; }
             .overlay-divider { width: 50px; height: 2px; background: #3b82f6; margin-bottom: 25px; }
-            .overlay-bio { color: rgba(255,255,255,0.6); font-size: 0.95rem; line-height: 1.7; margin-bottom: 35px; }
-            .overlay-action-btn { display: inline-flex; align-items: center; gap: 12px; background: #fff; color: #07090e; text-decoration: none; font-size: 0.9rem; font-weight: 600; padding: 14px 28px; border-radius: 14px; transition: all 0.25s; }
+            @media (max-width: 768px) {
+    .overlay-divider {
+        /* จัดให้อยู่ตรงกลางแนวนอน และคงระยะห่างด้านล่าง 25px ไว้เท่าเดิม */
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 25px; 
+    }
+}
+.overlay-bio {
+    color: rgba(255, 255, 255, 0.75); /* ปรับให้สว่างขึ้นเล็กน้อยจาก 0.6 เพื่อให้อ่านบนพื้นหลังมืดได้ง่ายขึ้น ไม่สบายตาเกินไป */
+    font-size: clamp(0.9rem, 2vw, 1rem); /* ปรับขนาดออโต้ตามหน้าจอ (บนมือถือจะเล็กลงนิดนึง บนคอมจะพอดี) */
+    line-height: 1.75; /* เพิ่มระยะบรรทัดอีกนิดเพื่อลดความอึดอัดของเนื้อหา */
+    margin-bottom: 2rem; /* เปลี่ยนจาก 35px เป็น 2rem เพื่อความยืดหยุ่นตามขนาดฟอนต์ */
+    font-weight: 300; /* หากฟอนต์รองรับ น้ำหนักนี้จะช่วยให้ฟอนต์สีขาวดูคลีนและหรูหราขึ้น */
+}            .overlay-action-btn { display: inline-flex; align-items: center; gap: 12px; background: #fff; color: #07090e; text-decoration: none; font-size: 0.9rem; font-weight: 600; padding: 14px 28px; border-radius: 14px; transition: all 0.25s; }
             .overlay-action-btn:hover { transform: translateY(-2px); box-shadow: 0 15px 30px rgba(255,255,255,0.15); }
 
             @media (max-width: 768px) {
@@ -1654,7 +1678,7 @@ body::before {
 
 .scroll-text-custom {
     letter-spacing: 2px;
-    font-size: 0.5rem;
+    font-size: 0.5rem !important;
     transition: color 0.3s ease;
     text-align: center;
 }
@@ -1694,10 +1718,17 @@ body::before {
 .policy-form-header {
     text-align: center;
     margin-bottom: 10px;
+    width: 100%; /* บังคับความกว้างเต็มเพื่อให้ระบบยืดหดฟอนต์ทำงานได้แม่นยำ */
 }
 
 .policy-main-title {
-    font-size: 2.4rem;
+    /* 🔒 ล็อกให้อยู่บรรทัดเดียว ห้ามตกบรรทัดเด็ดขาด */
+    white-space: nowrap; 
+
+    /* 💧 ระบบลดขนาดอัตโนมัติ: บนมือถือจะหดเล็กลงเองตามหน้าจอ และใหญ่สุดที่ 2.4rem บนคอม */
+    font-size: clamp(1.75rem, 5.2vw, 2.4rem)!important; 
+    
+    /* สไตล์เดิมที่ออกแบบไว้สวยอยู่แล้ว */
     letter-spacing: 3px;
     font-weight: 700;
     background: linear-gradient(to right, #fff, #94a3b8);
@@ -1707,9 +1738,21 @@ body::before {
     margin: 0;
 }
 
+@media (max-width: 768px) {
+    .policy-main-title {
+        margin-top: -55px !important; /* ปรับระยะห่างด้านบนสำหรับมือถือให้ดูสมดุลกับขนาดฟอนต์ที่เล็กลง */
+    }
+}
+
 .policy-main-subtitle {
+    /* 🔒 ล็อกให้อยู่บรรทัดเดียว ห้ามตกบรรทัดเด็ดขาด */
+    white-space: nowrap; 
+
+    /* 💧 ระบบลดขนาดอัตโนมัติสำหรับซับไตเติล หดลงตามหน้าจอและใหญ่สุดที่ 1rem */
+    font-size: clamp(0.8rem, 3vw, 1rem); 
+    
+    /* สไตล์เดิมที่ออกแบบไว้ */
     color: var(--primary-neon);
-    font-size: 1rem;
     margin-top: 5px;
     font-weight: 400;
     letter-spacing: 1px;
@@ -1870,13 +1913,12 @@ body::before {
 
 /* จัดการตำแหน่งกล่องหัวข้อให้อยู่กึ่งกลางและเว้นระยะ */
 .carousel-header-wrapper {
-    width: 100%;
     display: flex;
-    justify-content: center; /* จัดกึ่งกลางแนวนอน */
-    align-items: center;     /* จัดกึ่งกลางแนวตั้ง */
-    margin-top: 50px;        /* เว้นพื้นที่หลบแถบด้านบน (Navbar) */
-    margin-bottom: 5px;     /* เว้นระยะห่างก่อนถึงตัวรูปภาพสมาชิก */
-    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 1rem;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* ลูกเล่นเอฟเฟกต์แสงสีและอนิเมชันบนตัวอักษร */
@@ -1904,6 +1946,49 @@ body::before {
     animation: 
         shineTextEffect 4s linear infinite,
         neonPulseEffect 3s ease-in-out infinite alternate;
+}
+
+.simple-carousel-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%; /* อิงความยาว 100% ตามตัวหนังสือ */
+    height: 4px;
+    background: linear-gradient(90deg, #3182ce, #63b3ed);
+    border-radius: 2px;
+    
+    /* เรียกใช้งาน Animation ชื่อ pulse-width */
+    /* ทำงานรอบละ 3 วินาที, เล่นนุ่มนวลแบบ ease-in-out, และเล่นวนไปเรื่อยๆ ไม่สิ้นสุด (infinite) */
+    animation: pulse-width 3s ease-in-out infinite;
+}
+
+/* สร้างลูปการยืดหดด้วย @keyframes */
+@keyframes pulse-width {
+    0% {
+        transform: scaleX(0.2); /* เริ่มต้นที่ความยาว 20% ของตัวหนังสือ */
+        transform-origin: center;
+    }
+    50% {
+        transform: scaleX(0.8); /* ยืดออกไปสูงสุดที่ 80% ของตัวหนังสือ (ปรับเป็น 1 เพื่อให้เต็ม 100% ได้ครับ) */
+        transform-origin: center;
+    }
+    100% {
+        transform: scaleX(0.2); /* หดกลับมาที่ 20% เท่าเดิม */
+        transform-origin: center;
+    }
+}
+
+.simple-carousel-title::before {
+    content: attr(data-text);
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    left: 50%;
+    transform: translateX(-49%); /* เยื้องไปด้านหลังเล็กน้อย */
+    z-index: -1;
+    color: rgba(49, 130, 206, 0.15); /* สีเงาสะท้อนจางๆ (เช่น สีฟ้าพรรค) */
+    white-space: nowrap;
 }
 
 /* ==========================================
@@ -1939,7 +2024,7 @@ body::before {
    ========================================== */
 @media screen and (max-width: 768px) {
     .carousel-header-wrapper {
-        margin-top: 50px;    /* ลดระยะเว้นด้านบนลงเล็กน้อยบนมือถือ */
+        margin-top: -55px;    /* ลดระยะเว้นด้านบนลงเล็กน้อยบนมือถือ */
         margin-bottom: 25px;
     }
     .simple-carousel-title {
@@ -2011,5 +2096,234 @@ body::before {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+/* ==========================================
+   1. สไตล์สำหรับหน้าจอคอมพิวเตอร์ (Desktop) - ชิดซ้าย
+   ========================================== */
+.overlay-actions {
+    display: flex;
+    justify-content: flex-start; /* บังคับให้ปุ่มชิดซ้ายบนหน้าจอคอม */
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* ตัวปุ่มหลัก (Base Button) */
+.overlay-ig-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 12px 32px;
+    
+    /* สไตล์กระจกหรูหรา (Premium Glassmorphism) */
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 100px;
+    
+    /* อักษรและการจัดวาง */
+    color: rgba(255, 255, 255, 0.9);
+    font-family: 'Prompt', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 0.2px;
+    
+    /* ระบบกรองแสงด้านหลังเพื่อความอ่านง่าย */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    
+    /* เงาแบบนุ่มนวลหลายชั้น */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+                0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    
+    /* อนิเมชันแบบความเร็วโปร (Ease-out Cubic) */
+    transition: 
+        background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    
+    cursor: pointer;
+    outline: none;
+}
+
+/* ไอคอน Instagram */
+.ig-icon {
+    font-size: 1.3rem;
+    color: rgba(255, 255, 255, 0.85);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ------------------------------------------------------------- */
+/* INTERACTION STATES (สถานะการตอบสนอง) */
+/* ------------------------------------------------------------- */
+
+/* เมื่อเอาเมาส์ไปชี้ (Hover State) */
+@media (hover: hover) {
+    .overlay-ig-link:hover {
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.12);
+        border-color: rgba(225, 48, 108, 0.4);
+        transform: translateY(-2px);
+        
+        box-shadow: 0 12px 20px -8px rgba(225, 48, 108, 0.3),
+                    0 4px 12px -2px rgba(0, 0, 0, 0.15);
+    }
+
+    .overlay-ig-link:hover .ig-icon {
+        background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        transform: scale(1.12);
+    }
+}
+
+/* เมื่อผู้ใช้กดคลิก/กดแตะ (Active State) */
+.overlay-ig-link:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* ระบบรองรับการกดด้วยคีย์บอร์ด (Focus Visible) */
+.overlay-ig-link:focus-visible {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.8);
+}
+
+
+/* ==========================================
+   2. 📱 สไตล์เพิ่มสำหรับหน้าจอมือถือ (Responsive Mobile) 
+   ========================================== */
+@media (max-width: 768px) {
+    .overlay-actions {
+        justify-content: center; /* ดีดปุ่มกลับมาอยู่ "ตรงกลาง" ทันทีเมื่อเปิดในมือถือ */
+    }
+}
+
+/* ตัวการ์ดสไตล์กระจกล้ำยุค */
+.policy-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    overflow: hidden;
+    z-index: 1;
+    
+    /* เอฟเฟกต์เบลอกระจกหลังการ์ด */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    
+    /* อนิเมชันจังหวะเปลี่ยนผ่านที่สมูทพิเศษ */
+    transition: 
+        transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+        border-color 0.4s ease,
+        box-shadow 0.4s ease;
+}
+
+/* ตัวเลขลำดับนโยบายขนาดใหญ่ (อยู่หลังสุดจางๆ) */
+.policy-number {
+    position: absolute;
+    top: -10px;
+    right: 10px;
+    font-size: 6.5rem;
+    font-weight: 900;
+    font-family: 'Montserrat', sans-serif;
+    
+    /* ใช้เทคนิคตัวหนังสือโปร่งแสงมีแต่เส้นขอบ (Text Stroke) */
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.05);
+    
+    z-index: -1;
+    user-select: none;
+    transition: 
+        -webkit-text-stroke 0.4s ease,
+        transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* คอนเทนเนอร์หุ้มไอคอน */
+.policy-icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 54px;
+    height: 54px;
+    background: rgba(59, 131, 246, 0.1); /* สีฟ้าจาง */
+    border: 1px solid rgba(59, 131, 246, 0.2);
+    border-radius: 14px;
+    margin-bottom: 24px;
+    color: #3b82f6; /* สีไอคอนเริ่มต้น */
+    font-size: 1.4rem;
+    transition: all 0.4s ease;
+}
+
+/* ส่วนกล่องข้อความ */
+.policy-content h3 {
+    color: #ffffff;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+    letter-spacing: 0.5px;
+    transition: color 0.3s ease;
+}
+
+.policy-content p {
+    color: #94a3b8; /* สีเทาอมฟ้าสไตล์ UI สมัยใหม่ อ่านง่ายไม่ปวดตา */
+    font-size: 0.92rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ------------------------------------------------------------- */
+/* 🚀 HOVER EFFECTS (ลูกเล่นตอนเมาส์ชี้เพื่อความหรูหรา) */
+/* ------------------------------------------------------------- */
+
+@media (hover: hover) {
+    .policy-card:hover {
+        transform: translateY(-6px) scale(1.01); /* การ์ดลอยขึ้นและขยายมิตินิดหน่อย */
+        border-color: rgba(59, 131, 246, 0.3); /* ขอบเรืองแสงสีฟ้า */
+        
+        /* สาดเงาเรืองแสงนีออนนุ่มๆ */
+        box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.5),
+                    0 0 20px -5px rgba(59, 131, 246, 0.15);
+    }
+
+    /* เมื่อชี้การ์ด ให้ตัวเลขหลังการ์ดขยายและเรืองแสงชัดขึ้น */
+    .policy-card:hover .policy-number {
+        -webkit-text-stroke: 1px rgba(59, 131, 246, 0.18);
+        transform: scale(1.05) translateY(5px);
+    }
+
+    /* เปลี่ยนสีกล่องไอคอนและตัวไอคอนให้สว่างวาบขึ้น */
+    .policy-card:hover .policy-icon-wrap {
+        background: #3b82f6;
+        color: #ffffff;
+        box-shadow: 0 0 15px rgba(59, 131, 246, 0.4);
+        transform: rotate(-5deg) scale(1.05); /* เอียงไอคอนเล็กน้อยเพิ่มความขี้เล่น */
+    }
+
+    /* ไฮไลท์ชื่อหัวข้อนโยบาย */
+    .policy-card:hover .policy-content h3 {
+        color: #60a5fa; /* ฟ้าสว่าง */
+    }
+}
+
+/* 📱 ปรับแต่งเพื่อให้แสดงผลสวยงามบนจอมือถือ */
+@media (max-width: 480px) {
+    .policy-grid {
+        grid-template-columns: 1fr; /* บนมือถือแคบๆ บังคับแถวเดี่ยว */
+        gap: 16px;
+    }
+    .policy-card {
+        padding: 24px; /* ลดความชันขอบลงเพื่อให้เนื้อหาดูกว้างขึ้น */
+    }
+    .policy-number {
+        font-size: 5rem; /* ลดขนาดตัวเลขฉากหลังไม่ให้บดบังตัวอักษร */
     }
 }
