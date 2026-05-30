@@ -333,8 +333,11 @@ function dragEnd() {
 /**
  * ฟังก์ชันเปิดหน้าต่างรายละเอียดแบบเต็มจอ
  */
+/**
+ * ฟังก์ชันเปิดหน้าต่างรายละเอียดแบบเต็มจอ (อัปเดตระบบ Reset สถานะป้องกันบัค)
+ */
 function openMemberOverlay(element) {
-    if (!element || isDragging) return; // หากกำลังทำการลากจูงอยู่ จะไม่เปิดป๊อปอัปขึ้นมา
+    if (!element || isDragging) return; 
     
     const track = document.getElementById('carousel-track');
     if (!track) return;
@@ -345,11 +348,13 @@ function openMemberOverlay(element) {
     if (elementIndex !== currentIndex) {
         currentIndex = elementIndex;
         moveTrack(true);
-        return; // ถ้ายังไม่ใช่คนตรงกลาง ให้เลื่อนมาก่อนแทนการเปิดทันที
+        return; 
     }
 
-    // ➕ สั่งหยุดสไลด์ออโต้เมื่อเปิดหน้าป๊อปอัปขึ้นมาอ่านข้อมูลค้างไว้
+    // 🛑 สั่งหยุดระบบสไลด์ออโต้ทันทีและล้างค่าเผื่อไว้
     stopAutoPlay();
+    isDragging = false;
+    isTransitioning = false;
 
     // สกัดชุดข้อมูลตัวแปรจาก Data attribute
     const name = element.getAttribute('data-name');
@@ -366,7 +371,6 @@ function openMemberOverlay(element) {
     const targetRole = document.getElementById('overlay-role');
     const targetBio = document.getElementById('overlay-bio');
     
-    // ดึง Element ปุ่มลิงก์ และ Text Span ด้านในชื่อไอจีมาควบคุม
     const targetIg = document.getElementById('overlay-ig');
     const targetIgUsername = document.getElementById('overlay-ig-username');
 
@@ -376,20 +380,15 @@ function openMemberOverlay(element) {
     if (targetRole) targetRole.innerText = role || 'ROLE';
     if (targetBio) targetBio.innerText = bio || 'BIOGRAPHY';
     
-    /* 🛠️ อัปเดตระบบลิงก์และชื่อ Instagram แบบใหม่ */
     if (targetIg) {
-        const cleanIg = ig.replace('@', '').trim(); // ลบเครื่องหมาย @ ออกก่อนเพื่อเอาไปทำ Link URL ที่ถูกต้อง
-        
+        const cleanIg = ig.replace('@', '').trim(); 
         if (cleanIg) {
             targetIg.href = `https://instagram.com/${cleanIg}`;
-            targetIg.style.display = 'inline-flex'; // เปิดการแสดงผลปุ่ม
-            
-            // เปลี่ยนข้อความชื่อไอจีข้างในแท็ก Span ให้ตรงตามแต่ละบุคคล
+            targetIg.style.display = 'inline-flex'; 
             if (targetIgUsername) {
                 targetIgUsername.innerText = `@${cleanIg}`; 
             }
         } else {
-            // ถ้าคนนี้ไม่มีข้อมูลไอจี ให้ซ่อนปุ่มลิงก์นี้ไปเลย
             targetIg.style.display = 'none';
         }
     }
@@ -400,15 +399,26 @@ function openMemberOverlay(element) {
 }
 
 /**
- * ฟังก์ชันปิดหน้าต่างรายละเอียด
+ * ฟังก์ชันปิดหน้าต่างรายละเอียด (อัปเดตล้างสถานะตกค้าง + ปลุกความลื่นไหลกลับมา)
  */
 function closeMemberOverlay() {
     const overlayScreen = document.getElementById('immersive-profile-overlay');
     if (overlayScreen) overlayScreen.classList.remove('active');
     document.body.style.overflow = ''; 
 
-    // ➕ เมื่อปิดหน้าต่างป๊อปอัปแล้ว สั่งให้ระบบสไลด์ออโต้กลับมานับเวลาต่อทันที
-    startAutoPlay();
+    // 🧼 [แก้บัคเลื่อนยาก] เคลียร์สถานะการลากและแอนิเมชันที่ตกค้างให้กลับเป็นปกติ
+    isDragging = false;
+    isTransitioning = false;
+    dragOffset = 0;
+
+    // 🛠️ [แก้บัคฝืด] บังคับให้เบราว์เซอร์คำนวณตำแหน่งสไลเดอร์และจัดระเบียบการ์ดใหม่อีกครั้งทันทีที่ปิดหน้าต่าง
+    setTimeout(() => {
+        recalculateCarousel();
+        moveTrack(false); // ล็อกเป้าตรงกลางแบบต่อเนื่อง
+        
+        // ➕ [แก้บัคไม่ยอมเลื่อนออโต้] สั่งให้ระบบ Auto-Play เริ่มนับเวลาใหม่อย่างปลอดภัย
+        startAutoPlay();
+    }, 50); // ดีเลย์ 50ms เพื่อรอให้แอนิเมชันหน้าต่างปิดตัวเรียบร้อยก่อน
 }
 
 // ผูกระบบปิดเมื่อคลิกที่ว่างด้านนอกกล่องป๊อปอัป overlay

@@ -1684,7 +1684,13 @@ input, textarea {
 }
 
 .member-section-layout {
-    background: #07090e;
+    /* เปลี่ยนจากสีทึบเป็นรูปพื้นหลัง */
+    background-image: url(members/school.jpg);
+    background-size: cover;          /* ขยายรูปให้เต็มจอและคงสัดส่วนไว้ */
+    background-position: center;      /* จัดภาพให้อยู่ตรงกลางหน้าจอ */
+    background-repeat: no-repeat;     /* ป้องกันไม่ให้รูปแสดงซ้ำ */
+    background-attachment: fixed;     /* ล็อกรูปพื้นหลังให้คงที่เวลาสกรอลล์ (บนคอมพิวเตอร์) */
+    
     padding: 60px 0;
     min-height: 100vh;
     display: flex;
@@ -1692,6 +1698,34 @@ input, textarea {
     justify-content: center;
     overflow: hidden;
     position: relative;
+}
+
+/* เพิ่มเติม: ปรับแต่งสำหรับหน้าจอมือถือ (แนวตั้ง) */
+@media (max-width: 768px) {
+    .member-section-layout {
+        /* เปลี่ยนระบบล็อกภาพเป็น scroll บนมือถือ เพื่อป้องกันอาการภาพกระตุกบน iOS/Android */
+        background-attachment: scroll;
+        
+        /* ปรับตำแหน่งภาพบนมือถือให้อยู่ตรงกลางพอดี (หากต้องการให้เน้นส่วนบนของภาพ สามารถเปลี่ยนเป็น center top ได้) */
+        background-position: center center;
+    }
+}
+
+/* 1. ชั้นกระจกฝ้าสำหรับสั่งเบลอภาพพื้นหลัง */
+.member-section-layout::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(8px); 
+    -webkit-backdrop-filter: blur(8px); 
+    background-color: rgba(7, 9, 14, 0.4); 
+    pointer-events: none; 
+    
+    /* 💡 แก้จุดนี้: เปลี่ยนจาก z-index: 1 เป็น -1 เพื่อส่งแผ่นเบลอไปอยู่หลังสุดแทน */
+    z-index: -1; 
 }
 
 .section-title-clean-left {
@@ -2327,3 +2361,4 @@ input, textarea {
         font-size: 5rem; /* ลดขนาดตัวเลขฉากหลังไม่ให้บดบังตัวอักษร */
     }
 }
+
