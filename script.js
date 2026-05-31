@@ -531,81 +531,44 @@ if (searchInput) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    // เปลี่ยน Selector ให้ตรงกับ Class Prefix ใหม่ (ป้องกันคลาสชนกัน)
-    const slides = document.querySelectorAll(".kc-card-slide");
-    const prevBtn = document.querySelector(".btn-prev");
-    const nextBtn = document.querySelector(".btn-next");
-    const dotsContainer = document.querySelector(".policy-dots-indicator");
-    let currentSlide = 0;
-
-    // สร้างจุดวงกลมตามจำนวนสไลด์จริง
-    slides.forEach((_, index) => {
-        const dot = document.createElement("div");
-        dot.classList.add("kc-dot"); // เปลี่ยนคลาสของจุดเป็นระบบใหม่
-        if (index === 0) dot.classList.add("kc-is-active"); // ใช้ kc-is-active แทน active
-        dot.addEventListener("click", () => goToSlide(index));
-        dotsContainer.appendChild(dot);
-    });
-
-    const dots = document.querySelectorAll(".kc-dot");
-
-    function updateSlider() {
-        slides.forEach((slide, index) => {
-            if (index === currentSlide) {
-                slide.classList.add("kc-is-active"); // อัปเดตคลาสแสดงผลสไลด์
-                dots[index].classList.add("kc-is-active"); // อัปเดตคลาสแสดงผลจุดอินดิเคเตอร์
-            } else {
-                slide.classList.remove("kc-is-active");
-                dots[index].classList.remove("kc-is-active");
-            }
-        });
-    }
-
-    function goToSlide(index) {
-        currentSlide = index;
-        updateSlider();
-    }
-
-    nextBtn.addEventListener("click", () => {
-        currentSlide = (currentSlide + 1) % slides.length;
-        updateSlider();
-    });
-
-    prevBtn.addEventListener("click", () => {
-        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-        updateSlider();
-    });
-});
-
-document.addEventListener("DOMContentLoaded", () => {
     const section = document.getElementById("policy-section");
+    if (!section) return;
+
+    const wrapper = section.querySelector(".policy-giant-wrapper"); 
     const slides = section.querySelectorAll(".kc-card-slide");
-    const prevBtn = section.querySelector(".btn-prev");
-    const nextBtn = section.querySelector(".btn-next");
     const dotsContainer = section.querySelector(".policy-dots-indicator");
     
+    if (slides.length === 0) return;
+
     let currentIndex = 0;
     let autoPlayTimer = null;
-    const AUTO_PLAY_INTERVAL = 4000; // ⏱️ ตั้งเวลาเลื่อนอัตโนมัติ (4000 มิลลิวินาที = 4 วินาที)
+    const AUTO_PLAY_INTERVAL = 4000; // ⏱️ เลื่อนอัตโนมัติทุกๆ 4 วินาที
 
-    // 1. สร้างจุดอินดิเคเตอร์ (Dots) ตามจำนวนสไลด์จริง (มี 10 นโยบายก็สร้าง 10 จุด)
+    // ตัวแปรควบคุมระบบตรวจจับการปัด (Swipe & Drag)
+    let startX = 0;
+    let endX = 0;
+    const SWIPE_THRESHOLD = 40; // ระยะพิกเซลขั้นต่ำที่นิ้วปัดแล้วจะเปลี่ยนสไลด์ (ปรับให้นุ่มนวลขึ้น)
+    let isDragging = false;
+
+    // 1. ฟังก์ชันสร้างจุดบอกตำแหน่งนโยบาย (Dots Indicator)
     function createDots() {
+        if (!dotsContainer) return;
         dotsContainer.innerHTML = "";
         slides.forEach((_, index) => {
             const dot = document.createElement("div");
             dot.classList.add("kc-dot");
             if (index === 0) dot.classList.add("kc-is-active");
             
-            // คลิกที่จุดแล้วให้ข้ามไปยังนโยบายนั้นๆ
+            // เมื่อผู้ใช้คลิกที่จุด ให้ข้ามไปยังนโยบายนั้นทันที
             dot.addEventListener("click", () => {
                 goToSlide(index);
-                resetAutoPlay(); // รีเซ็ตตัวนับเวลาใหม่เมื่อผู้ใช้กด
+                resetAutoPlay();
             });
             dotsContainer.appendChild(dot);
         });
     }
 
-    // 2. ฟังก์ชันอัปเดตสถานะการแสดงผลของการ์ดและจุด
+    // 2. ฟังก์ชันอัปเดตแอนิเมชันและการแสดงผลของการ์ดและจุดบอกตำแหน่ง
     function updateSlides() {
         // อัปเดตตัวการ์ดนโยบาย
         slides.forEach((slide, index) => {
@@ -616,61 +579,92 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        // อัปเดตจุดบอกตำแหน่ง
-        const dots = dotsContainer.querySelectorAll(".kc-dot");
-        dots.forEach((dot, index) => {
-            if (index === currentIndex) {
-                dot.classList.add("kc-is-active");
-            } else {
-                dot.classList.remove("kc-is-active");
-            }
-        });
+        // อัปเดตจุดไฟสถานะด้านล่าง
+        if (dotsContainer) {
+            const dots = dotsContainer.querySelectorAll(".kc-dot");
+            dots.forEach((dot, index) => {
+                if (index === currentIndex) {
+                    dot.classList.add("kc-is-active");
+                } else {
+                    dot.classList.remove("kc-is-active");
+                }
+            });
+        }
     }
 
-    // 3. ฟังก์ชันกระโดดไปสไลด์ที่เลือก
+    // 3. ฟังก์ชันควบคุมทิศทาง
     function goToSlide(index) {
         currentIndex = index;
         updateSlides();
     }
 
-    // 4. ฟังก์ชันสำหรับเลื่อนไปข้างหน้า (ถัดไป)
     function nextSlide() {
-        currentIndex = (currentIndex + 1) % slides.length; // ถ้าถึงนโยบายที่ 10 จะวนกลับมา 01 ใหม่
+        currentIndex = (currentIndex + 1) % slides.length;
         updateSlides();
     }
 
-    // 5. ฟังก์ชันสำหรับย้อนกลับไปข้างหลัง
     function prevSlide() {
         currentIndex = (currentIndex - 1 + slides.length) % slides.length;
         updateSlides();
     }
 
-    // 6. ระบบเริ่มทำงานการเลื่อนอัตโนมัติ
+    // 4. ระบบคำนวณและตรวจจับการใช้นิ้วปัด / ลากเมาส์ (Gesture Engine)
+    function handleGesture() {
+        const diffX = startX - endX;
+        
+        if (Math.abs(diffX) > SWIPE_THRESHOLD) {
+            if (diffX > 0) {
+                nextSlide();  // ปัดซ้าย = ไปข้างหน้า
+            } else {
+                prevSlide();  // ปัดขวา = ย้อนกลับ
+            }
+            resetAutoPlay();  // รีเซ็ตตัวนับเวลาใหม่ทันทีเมื่อมีการปัดขยับ
+        }
+    }
+
+    // 5. ผูกสัญญาน Touch Events (สำหรับมือถือและแท็บเล็ต)
+    if (wrapper) {
+        wrapper.addEventListener("touchstart", (e) => {
+            startX = e.touches[0].clientX;
+        }, { passive: true });
+
+        wrapper.addEventListener("touchend", (e) => {
+            endX = e.changedTouches[0].clientX;
+            handleGesture();
+        }, { passive: true });
+
+        // 6. ผูกสัญญาน Mouse Events (สำหรับคนใช้คอมพิวเตอร์ที่ต้องการใช้วิธีคลิกลาก)
+        wrapper.addEventListener("mousedown", (e) => {
+            isDragging = true;
+            startX = e.clientX;
+        });
+
+        wrapper.addEventListener("mouseup", (e) => {
+            if (!isDragging) return;
+            endX = e.clientX;
+            isDragging = false;
+            handleGesture();
+        });
+
+        wrapper.addEventListener("mouseleave", () => {
+            isDragging = false;
+        });
+    }
+
+    // 7. ระบบตั้งเวลาสไลด์อัตโนมัติ (Smart Auto-Play)
     function startAutoPlay() {
         if (!autoPlayTimer) {
             autoPlayTimer = setInterval(nextSlide, AUTO_PLAY_INTERVAL);
         }
     }
 
-    // 7. ระบบหยุดเลื่อนชั่วคราวและเริ่มนับเวลาใหม่ (ป้องกันปัญหาการ์ดเลื่อนหนีเวลาคนกำลังกดดู)
     function resetAutoPlay() {
         clearInterval(autoPlayTimer);
         autoPlayTimer = null;
         startAutoPlay();
     }
 
-    // 8. ผูกเหตุการณ์การคลิกเข้ากับปุ่มนำทาง ซ้าย-ขวา
-    nextBtn.addEventListener("click", () => {
-        nextSlide();
-        resetAutoPlay();
-    });
-
-    prevBtn.addEventListener("click", () => {
-        prevSlide();
-        resetAutoPlay();
-    });
-
-    // 🚀 สั่งเริ่มทำงานระบบทั้งหมด
+    // 🚀 สั่งรันระบบควบคุมนโยบายทั้งหมดให้เริ่มทำงาน
     createDots();
     startAutoPlay();
 });

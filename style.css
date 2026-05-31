@@ -1792,6 +1792,13 @@ input, textarea {
         
         /* ปรับตำแหน่งภาพบนมือถือให้อยู่ตรงกลางพอดี (หากต้องการให้เน้นส่วนบนของภาพ สามารถเปลี่ยนเป็น center top ได้) */
         background-position: center center;
+        height: 100dvh; 
+        justify-content: flex-start;
+        padding-top: 90px;
+        padding-bottom: 30px;
+        
+        /* 🌟 เพิ่มคำสั่งนี้เพื่อตัดวงจรการส่งต่อแรงสกรอลล์ */
+        overscroll-behavior-y: auto; 
     }
 }
 
@@ -1871,7 +1878,7 @@ input, textarea {
     
     /* สไตล์เดิมที่ออกแบบไว้ */
     color: var(--primary-neon);
-    margin-top: 5px;
+    margin-top: -5px !important; /* ปรับระยะห่างด้านบนให้ชิดกับไตเติลมากขึ้น */
     font-weight: 400;
     letter-spacing: 1px;
 }
@@ -2825,7 +2832,7 @@ input, textarea {
    ---------------------------------------------------- */
 .policy-modern-header {
     text-align: center;
-    margin-top: 80px;
+    margin-top: 120px;
 }
 
 .policy-main-title {
@@ -3040,12 +3047,6 @@ input, textarea {
 /* ----------------------------------------------------
    [ส่วนควบคุมควบคุมดีไซน์ล้ำสมัย]
    ---------------------------------------------------- */
-.policy-modern-controls {
-    display: flex;
-    align-items: center;
-    gap: 40px;
-    margin-top: 10px;
-}
 
 .policy-nav-btn {
     width: 50px;
@@ -3069,12 +3070,6 @@ input, textarea {
     box-shadow: 0 0 25px rgba(255, 215, 0, 0.45);
     transform: translateY(-3px);
     border-color: #ffd700;
-}
-
-.policy-dots-indicator {
-    display: flex;
-    gap: 12px;
-    align-items: center;
 }
 
 .policy-dot {
@@ -3269,6 +3264,43 @@ input, textarea {
 }
 
 /* ==========================================================================
+   💻 DESKTOP ONLY STYLES (บีบความกว้างของสไลด์นโยบายทั้งหมดบนหน้าจอคอม)
+   ========================================================================= */
+@media (min-width: 769px) {
+    
+    /* 🎯 บีบขนาดความกว้างของการ์ดนโยบายแต่ละชิ้น */
+    .kc-card-slide {
+        width: 100% !important;
+        max-width: 80% !important; /* 🛠️ ปรับลด-เพิ่มตัวเลขนี้ได้ตามชอบ (เช่น 550px - 650px กำลังกะทัดรัดสวยงาม) */
+        margin: 0 auto !important;   /* จัดให้ตัวการ์ดนโยบายอยู่กึ่งกลางหน้าจอพอดี */
+        margin-top: -120px !important;
+    }
+
+    /* จัดโครงสร้างภายในเนื้อหาให้กางเต็มกล่องใหม่ที่ถูกบีบไว้ */
+    .kc-card-grid {
+        width: 100% !important;
+        display: grid !important;
+        grid-template-columns: auto 1fr !important; /* ไอคอนซ้าย ข้อความขวา ตามสไตล์ PC */
+        gap: 24px !important;
+        align-items: center !important;
+    }
+
+    /* รีเซ็ตให้เนื้อหาภายในไหลตามความกว้างของสไลด์หลัก */
+    .kc-card-side-zone,
+    .kc-info-text-block {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+    }
+
+    /* ปรับตัวอักษรเนื้อหาให้จัดชิดซ้ายตามสไตล์การวางเลย์เอาต์แนวนอนของคอม */
+    .kc-info-desc {
+        text-align: left !important;
+        line-height: 1.6 !important;
+    }
+}
+
+/* ==========================================================================
    RESPONSIVE (รองรับการแสดงผลบนมือถือ)
    ========================================================================== */
 @media (max-width: 768px) {
@@ -3378,9 +3410,13 @@ input, textarea {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 28px; /* เพิ่มช่องไฟให้ปุ่มขนาด 50px ดูไม่อึดอัด */
-    margin-top: 35px;
-    user-select: none;
+    gap: 24px;
+    width: 100%;
+    
+    /* 🛠️ เพิ่ม 2 บรรทัดนี้เพื่อดันปุ่มให้ลอยสูงขึ้นจากขอบล่างอย่างชัดเจน */
+    margin-top: 0px; 
+    margin-bottom: 35px !important;  /* ดันกล่องขึ้นจากขอบล่างของ Container */
+    padding-bottom: 15px !important; /* เพิ่มระยะเคลียร์พื้นที่ไม่ให้ติดขอบจอเกินไป */
 }
 
 /* --------------------------------------------------------------------------
@@ -3396,10 +3432,42 @@ input, textarea {
    2. DOTS INDICATOR STYLES (จุดบอกตำแหน่งหน้า)
    -------------------------------------------------------------------------- */
 /* กล่องรวมจุดกลม */
+/* 🎯 ปรับแต่งจุดดอตให้ล็อกอยู่ด้านล่างสุดของขอบจอ/ขอบกล่อง */
 .policy-dots-indicator {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important; /* จัดให้จุดดอตอยู่ตรงกลางแนวนอน */
+    gap: 10px !important;
+    
+    /* รีเซ็ต margin เดิมออก */
+    margin: 0 !important; 
+    
+    /* บังคับให้ลอยตัวและล็อกตำแหน่ง */
+    position: absolute !important;
+    bottom: 5px !important;    /* 👈 ระยะห่างจากขอบจอด้านล่าง (ปรับเพิ่ม/ลดได้ตามใจชอบ) */
+    left: 50% !important;       /* ดันมาตรงกลาง */
+    transform: translateX(-50%) !important; /* ใช้เทคนิคนี้ร่วมกับ left: 50% เพื่อให้อยู่กึ่งกลางเป๊ะ */
+    
+    z-index: 10 !important;     /* ดันให้อยู่ชั้นบนสุด ไม่โดนรูปหรือการ์ดบัง */
+}
+
+/* 📱 โค้ดเฉพาะหน้าจอมือถือ (ความกว้างหน้าจอไม่เกิน 768px) */
+@media screen and (max-width: 768px) {
+    .policy-dots-indicator {
+        /* ยกความสูงขึ้นมาจากขอบจอด้านล่างสำหรับมือถือ */
+        bottom: 40px !important; /* 👈 ปรับเพิ่ม/ลดตัวเลขนี้ได้ตามต้องการ ยิ่งเลขมากยิ่งอยู่สูงขึ้น */
+        
+        /* ใส่ฉากหลังจางๆ เพื่อไม่ให้กลืนไปกับภาพพื้นหลัง (เลือกใส่หรือไม่ใส่ก็ได้ครับ) */
+        background: rgba(0, 0, 0, 0.3) !important;
+        padding: 6px 12px !important;
+        border-radius: 20px !important;
+    }
+}
+
+/* บังคับให้เซกชันหลักเป็นฐานในการวัดระยะขอบล่าง */
+.policy-immersive-section,
+#policy-section {
+    position: relative !important;
 }
 
 /* ลักษณะของจุดเริ่มต้น (จุดที่ยังไม่ได้ถูกเลือก) */
@@ -3460,6 +3528,11 @@ input, textarea {
         display: flex;
         align-items: center;
         justify-content: center;
+        padding-top: 90px;
+        padding-bottom: 30px;
+        
+        /* 🌟 เพิ่มคำสั่งนี้เพื่อตัดวงจรการส่งต่อแรงสกรอลล์ */
+        overscroll-behavior-y: auto; 
     }
 
     /* จัดระเบียบระยะเยื้อง หัว-กลาง-ท้าย บนหน้าจอมือถือ */
@@ -3811,3 +3884,43 @@ input, textarea {
 
 }
 
+/* 📱 ปรับเพิ่มความสูงของช่องแสดงผลนโยบายเฉพาะบนมือถือ (หน้าจอไม่เกิน 768px) */
+@media screen and (max-width: 768px) {
+
+    /* 2. บังคับให้แผ่นการ์ดสไลด์ทุกใบมีความสูงขั้นต่ำเพิ่มขึ้นอย่างเหมาะสม */
+    .kc-card-slide {
+        min-height: 450px !important; /* ดันความสูงตัวการ์ดให้สูงขึ้นเพื่อรองรับปุ่มและเนื้อหา */
+        height: auto !important;      /* ยืดหยุ่นตามเนื้อหาจริงแต่ไม่ต่ำกว่าค่า min-height */
+        padding: 20px 15px !important; /* เว้นระยะด้านในการ์ดให้ดูโปร่งขึ้น */
+        box-sizing: border-box !important;
+    }
+
+    /* 3. จัดการให้เนื้อหาภายในการ์ดกระจายตัวสวยงาม ไม่กระจุกตรงกลาง */
+    .kc-card-grid {
+        height: 100% !important;
+        display: flex !important;
+        flex-direction: column !important; /* สลับไอคอนมาอยู่ด้านบนหรือจัดเรียงเป็นแนวตั้งบนมือถือ */
+        justify-content: flex-start !important;
+        gap: 15px !important;
+    }
+}
+
+/* 📱 ปรับพื้นหลังให้ชัดขึ้นและสว่างขึ้น เฉพาะบนมือถือ (หน้าจอไม่เกิน 768px) */
+@media screen and (max-width: 768px) {
+    
+    /* 1. ลดความเบลอลง (ยิ่งเลขน้อยยิ่งชัด) */
+    .policy-fullscreen-bg {
+        filter: blur(6.5px) !important; /* ปรับลดจาก 8px เหลือ 3px เพื่อให้เห็นรายละเอียดภาพมากขึ้น */
+        transform: scale(1.03) !important; /* ลดการซูมลงเล็กน้อยตามค่าเบลอที่ลดลง */
+    }
+
+    /* 2. ปรับ Overlay ให้จางลงเพื่อให้ภาพดูสว่างขึ้น */
+    .policy-bg-overlay {
+        /* ปรับลดค่าความเข้มสีดำจาก 0.75 -> 0.40 และ 0.85 -> 0.55 */
+        background: linear-gradient(
+            180deg, 
+            rgba(15, 23, 42, 0.40) 0%, 
+            rgba(6, 8, 12, 0.55) 100%
+        ) !important;
+    }
+}
