@@ -1615,22 +1615,105 @@ input, textarea {
 
             /* --- Immersive Full-Screen Overlay --- */
             .profile-overlay-screen {
-                position: fixed;
-                inset: 0;
-                background: rgba(6, 8, 12, 0.85);
-                backdrop-filter: blur(25px);
-                z-index: 9999;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                opacity: 0;
-                pointer-events: none;
-                transition: opacity 0.4s ease;
-                padding: 20px;
-            }
+    position: fixed;
+    inset: 0;
+    
+    /* 1. ลบพื้นหลังสีทึบออก แล้วใส่รูปภาพแทน */
+    background-image: url(https://scontent.fhdy2-1.fna.fbcdn.net/v/t39.30808-6/485383205_9604446219594948_6123541513936889935_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=cc71e4&_nc_eui2=AeFN68hQMPZH-_DLj7D-HFvYp9aEJYDCwdan1oQlgMLB1iMKY8hb3vV_em2xTqUOdCvCg9cj4O3pFT0l29wTuT_N&_nc_ohc=vQwOx9ZusysQ7kNvwGTGSnd&_nc_oc=AdqfWzk7RRfQUypKchJOYc1OoBN2Hi7KOcL5gAdYcU1zBxaeSHg-m99SmimJ_iO4rQ5e2a8u05dbHtz0ECs80asp&_nc_zt=23&_nc_ht=scontent.fhdy2-1.fna&_nc_gid=xU3hrXCAXhGMOlyGlcXNgg&_nc_ss=7b2a8&oh=00_Af6ZM8VemHV3kAx4SmgH-ZsYHxyIHAb26zylYWOb8iTWkg&oe=6A20D82B);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    padding: 20px;
+}
+
+/* 2. สร้างแผ่นกระจกฝ้ามาบังทับรูป เพื่อสั่งเบลอแค่พื้นหลังป๊อปอัป */
+.profile-overlay-screen::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    
+    /* สั่งเบลอภาพพื้นหลัง (ปรับความฟุ้งเพิ่ม-ลดได้ที่ตัวเลข 25px นี้ครับ) */
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    
+    /* เคลือบสีดำทับ 65% (0.65) เพื่อให้กล่องรายละเอียดด้านบนเด่นขึ้นมา ไม่กลืนไปกับรูปพื้นหลัง */
+    background-color: rgba(6, 8, 12, 0.65);
+    
+    /* ยอมให้เมาส์/นิ้วปัดคลิกทะลุได้ และส่งไปอยู่หลังสุดของป๊อปอัป */
+    pointer-events: none;
+    z-index: -1; 
+}
+
+/* 3. ดันการ์ดข้อมูลสมาชิกให้ลอยเด่นขึ้นมาอยู่เหนือน้ำหนักความเบลอ */
+.profile-overlay-screen > * {
+    position: relative;
+    z-index: 1;
+}
             .profile-overlay-screen.active { opacity: 1; pointer-events: auto; }
-            .overlay-close-btn { position: absolute; top: 40px; right: 40px; background: transparent; border: none; color: rgba(255,255,255,0.3); font-size: 2.5rem; cursor: pointer; }
-            .overlay-close-btn:hover { color: #fff; }
+            /* ==========================================
+   โค้ดจัดตกแต่งปุ่มปิดกากบาท (.overlay-close-btn)
+   ========================================== */
+.overlay-close-btn {
+    position: absolute;
+    top: 25px;            /* ระยะห่างจากขอบบน */
+    right: 25px;          /* ระยะห่างจากขอบขวา */
+    
+    /* ขนาดของปุ่ม (ทำเป็นวงกลม) */
+    width: 45px;
+    height: 45px;
+    
+    /* จัดเครื่องหมายกากบาทให้อยู่ตรงกลางวงกลมเป๊ะๆ */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* สไตล์ตัวกากบาทและพื้นหลัง */
+    font-size: 28px;       /* ขยายขนาดกากบาทให้ใหญ่เห็นชัด */
+    color: #ffffff;        /* สีของกากบาท */
+    background: rgba(255, 255, 255, 0.1); /* พื้นหลังวงกลมแบบกระจกใสๆ */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* เส้นขอบวงกลมบางๆ */
+    border-radius: 50%;    /* บังคับเป็นวงกลมสมบูรณ์ */
+    
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    
+    /* ดันลำดับเลเยอร์ให้อยู่บนสุดเสมอ ป้องกันโดนกล่องข้อความบัง */
+    z-index: 10; 
+    
+    /* ล้างค่าสไตล์ดั้งเดิมของแท็ก button */
+    padding: 0;
+    line-height: 1;
+
+    top: 105px; /* ปรับระยะห่างจากขอบบนให้เหมาะสมกับดีไซน์ */
+    right: 30px; /* ปรับระยะห่างจากขอบขวาให้เหมาะสมกับดีไซน์ */
+}
+
+/* เอฟเฟกต์เวลาเอาเมาส์ไปชี้ (Hover) */
+.overlay-close-btn:hover {
+    background: #f87171;       /* เปลี่ยนพื้นหลังเป็นสีแดงพาสเทลยอดนิยม */
+    color: #ffffff;            /* ตัวกากบาทเป็นสีขาว */
+    border-color: #f87171;
+    transform: rotate(90deg);  /* หมุนกากบาทเล็กน้อยเพิ่มความพรีเมียม */
+}
+
+/* ปรับแต่งตำแหน่งสำหรับหน้าจอมือถือ (ป้องกันปุ่มลอยติดขอบจอเกินไป) */
+@media (max-width: 768px) {
+    .overlay-close-btn {
+        top: 85px;
+        right: 20px;
+        width: 40px;           /* ปรับขนาดเล็กลงบนจอมือถือนิดหน่อย */
+        height: 40px;
+        font-size: 24px;
+    }
+}
             .overlay-content-wrapper { display: flex; width: 100%; max-width: 800px; gap: 50px; align-items: center; transform: scale(0.95); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
             .profile-overlay-screen.active .overlay-content-wrapper { transform: scale(1); }
             .overlay-media { flex-shrink: 0; width: 280px; aspect-ratio: 4 / 5; border-radius: 24px; overflow: hidden; box-shadow: 0 40px 80px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.06); }
@@ -1662,6 +1745,7 @@ input, textarea {
                 .horizontal-member-card { flex: 0 0 min(260px, 80vw); }
                 .overlay-content-wrapper { flex-direction: column; text-align: center; gap: 25px; }
                 .overlay-media { width: 180px; }
+                .overlay-info h2 { font-size: 1.9rem; }
             }
 
 /* --- Styles migrated from index.html inline styles --- */
@@ -1685,7 +1769,7 @@ input, textarea {
 
 .member-section-layout {
     /* เปลี่ยนจากสีทึบเป็นรูปพื้นหลัง */
-    background-image: url(members/school.jpg);
+    background-image: url(members/school.webp);
     background-size: cover;          /* ขยายรูปให้เต็มจอและคงสัดส่วนไว้ */
     background-position: center;      /* จัดภาพให้อยู่ตรงกลางหน้าจอ */
     background-repeat: no-repeat;     /* ป้องกันไม่ให้รูปแสดงซ้ำ */
@@ -1909,15 +1993,27 @@ input, textarea {
 }
 
 .policy-number {
-    position: absolute;
-    right: 20px;
-    top: 15px;
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: rgba(255, 255, 255, 0.03);
-    font-style: italic;
-    user-select: none;
-    transition: color 0.3s;
+    font-size: 6rem;
+    font-weight: 900;
+    line-height: 1;
+    font-family: 'Montserrat', sans-serif; /* แนะนำให้ใช้ฟอนต์ตัวเลขแบบหนาอินเตอร์ */
+    
+    /* ทำตัวเลขแบบโปร่งแสง เห็นเฉพาะขอบเส้น (Outline Text) ดูล้ำสมัย */
+    background: linear-gradient(180deg, #ffd700 0%, rgba(255, 215, 0, 0.1) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 10px rgba(212, 175, 55, 0.2));
+}
+
+@keyframes textGlowUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .policy-card:hover .policy-number {
@@ -2058,7 +2154,7 @@ input, textarea {
    ========================================== */
 @media screen and (max-width: 768px) {
     .carousel-header-wrapper {
-        margin-top: -55px;    /* ลดระยะเว้นด้านบนลงเล็กน้อยบนมือถือ */
+        margin-top: -15px;    /* ลดระยะเว้นด้านบนลงเล็กน้อยบนมือถือ */
         margin-bottom: 25px;
     }
     .simple-carousel-title {
@@ -2360,5 +2456,1358 @@ input, textarea {
     .policy-number {
         font-size: 5rem; /* ลดขนาดตัวเลขฉากหลังไม่ให้บดบังตัวอักษร */
     }
+}
+
+/* ==========================================
+   STYLE FOR ADVISOR SHOWCASE (หน้าครูที่ปรึกษาแบบแสดงข้อมูลเลย)
+   ========================================== */
+.advisor-showcase-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+    
+    /* 🌟 เพิ่มตรงนี้: เพื่อให้เนื้อหาด้านในลอยอยู่เหนือพื้นหลังที่เบลอ */
+    position: relative; 
+    overflow: hidden; /* ป้องกันขอบรูปที่เบลอเลยออกมานอกเซกชัน */
+}
+
+/* 🌟 สร้างเลเยอร์พื้นหลังแยกต่างหากเพื่อไม่ให้ตัวหนังสือเบลอ */
+.advisor-showcase-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    
+    /* ย้ายโค้ดพื้นหลังของคุณมาไว้ที่นี่ */
+    background-image: linear-gradient(rgba(6, 8, 12, 0.5), rgba(6, 8, 12, 0.5)), url(members/school1.webp); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Parallax ยังทำงานได้ปกติ */
+    
+    /* 🛠️ ปรับค่าความเบลอตรงนี้ (ตัวเลขยิ่งมาก ยิ่งเบลอมาก) */
+    filter: blur(8px); 
+    
+    /* ขยายขนาดพื้นหลังเล็กน้อยเพื่อเก็บขอบไม่ให้เกิดรอยแหว่งจากการเบลอ */
+    transform: scale(1.05); 
+    
+    /* อยู่หลังเนื้อหาอื่นๆ */
+    z-index: 1; 
+}
+
+/* 🌟 บังคับให้เนื้อหาดั้งเดิม (เช่น h3, p, div) ลอยขึ้นมาอยู่เหนือกองพื้นหลัง */
+.advisor-showcase-section > * {
+    position: relative;
+    z-index: 2;
+}
+
+.advisor-display-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    max-width: 900px;
+    width: 100%;
+    margin-top: 30px;
+    z-index: 2;
+}
+
+/* ปรับปรุงกล่องรูปภาพ: เอากรอบ ขอบมน และเงาออก เพื่อเน้นตัวบุคคล */
+.advisor-display-profile {
+    flex: 0 0 320px;       /* กำหนดความกว้างของพื้นที่วางรูป */
+    height: 450px;         /* กำหนดความสูงของพื้นที่วางรูป */
+    position: relative;
+    overflow: hidden;
+    background: transparent; /* มั่นใจได้ว่าไม่มีพื้นหลังสีอื่นมาบัง */
+    bottom: 50px;
+    /* เอฟเฟกต์ Masking สั่งให้พื้นที่ด้านล่างค่อยๆ โปร่งใส (เฟดจางหายไป) */
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%);
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%);
+}
+
+.advisor-display-profile::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* ขยับเยื้องไปทางขวานิดๆ เพื่อให้รับกับกล่องข้อความ */
+    width: 250px;                     /* ขนาดความกว้างของดวงไฟ */
+    height: 250px;                    /* ขนาดความสูงของดวงไฟ */
+    background: radial-gradient(circle, rgba(56, 189, 248, 0.4) 0%, rgba(59, 130, 246, 0.1) 50%, rgba(0,0,0,0) 70%);
+    filter: blur(30px);               /* สั่งให้แสงฟุ้งกระจายเนียนตา */
+    z-index: 1;                       /* อยู่หลังรูปครู แต่ อยู่บนพื้นหลังหลัก */
+    pointer-events: none;             /* ป้องกันไม่ให้บล็อกการกดเมาส์ */
+}
+
+.advisor-full-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;   
+    object-position: bottom center; 
+    display: block;
+    position: relative;
+    z-index: 2;                       /* อยู่เหนือดวงไฟออร่า */
+    
+    /* สั่งเฟดขอบล่างเฉพาะที่ตัวรูปภาพ เพื่อไม่ให้กินพื้นที่ดวงไฟด้านหลัง */
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%);
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%);
+}
+
+@media (max-width: 768px) {
+    .advisor-display-profile {
+        flex: 0 0 280px;
+        width: 100%;
+        height: 360px;
+    }
+    
+    .advisor-display-profile::before {
+        transform: translate(-50%, -50%); /* บนมือถือจัดดวงไฟให้อยู่กึ่งกลางเป๊ะๆ */
+        width: 200px;
+        height: 200px;
+    }
+    
+    .advisor-full-img {
+        -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+        mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+    }
+}
+
+/* ส่วนกล่องข้อมูลตัวอักษร - ขอบทองอยู่ครบ คลื่นแสงวิ่งผ่านไม่ล้นขอบโค้ง */
+.advisor-display-info {
+    width: fit-content;         /* ปรับขนาดกรอบให้พอดีกับข้อความด้านใน */
+    max-width: 550px;           /* จำกัดความกว้างสูงสุดเพื่อความสวยงาม */
+    color: #ffffff;
+    text-align: left;           /* ข้อความชิดซ้ายตามเดิม */
+    position: relative;
+    padding: 35px 40px; 
+    border-radius: 24px;        /* คงความโค้งมนของขอบกล่องไว้ */
+    
+    /* สไตล์กระจกฝ้าตรงกลางซ้อนเอฟเฟกต์คลื่นแสงวิ่งพาดผ่าน (Shimmer Wave) */
+    background: linear-gradient(
+                    115deg, 
+                    transparent 35%, 
+                    rgba(255, 215, 0, 0.02) 42%, 
+                    rgba(255, 255, 255, 0.2) 50%, /* จุดสว่างสุดของคลื่นแสง */
+                    rgba(255, 215, 0, 0.02) 58%, 
+                    transparent 65%
+                ) -150% 0 / 200% 100% no-repeat, /* เลเยอร์คลื่นแสง */
+                rgba(30, 41, 59, 0.45);            /* เลเยอร์พื้นหลังกระจกฝ้าเดิม */
+                
+    backdrop-filter: blur(12px);         
+    -webkit-backdrop-filter: blur(12px);
+    
+    /* สร้างเส้นขอบหนา 2px รองรับแสงวิ่ง */
+    border: 2px solid transparent;
+    
+    /* เงาเรืองแสงสีทองจางๆ นอกขอบกล่อง */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
+                0 0 25px rgba(212, 175, 55, 0.15); 
+                
+    /* แก้ไข: ใช้ clip-path แทน overflow: hidden เพื่อกักคลื่นแสงให้อยู่ในขอบโค้งโดยไม่ตัดขอบทอง */
+    clip-path: inset(0 round 24px);
+                
+    /* เรียกใช้งานแอนิเมชันคลื่นแสงวิ่งพาดผ่านกระจกฝ้าซ้ำๆ ทุกๆ 5 วินาที */
+    animation: textBgWave 5s ease-in-out infinite;
+}
+
+/* เอฟเฟกต์แสงสีทองวิ่งรอบกรอบ บังคับให้อยู่เฉพาะบนเส้นขอบ (ตรงเนื้อหาด้านในจะไม่ถูกกระทบ) */
+.advisor-display-info::before {
+    content: '';
+    position: absolute;
+    inset: -2px; /* ขยายให้พอดีกับขอบนอกสุด */
+    border-radius: 24px; 
+    padding: 2px; /* ความหนาของเส้นขอบแสงวิ่ง */
+    
+    /* ใส่แสงสีทองไล่เฉด */
+    background: conic-gradient(
+        from var(--angle, 0deg),
+        transparent, 
+        rgba(212, 175, 55, 0.1) 30%, 
+        #ffd700 50%, /* จุดแสงสีทองวิ่ง */
+        rgba(212, 175, 55, 0.1) 70%, 
+        transparent
+    );
+    
+    /* เทคนิคเจาะรูตรงกลาง: สั่งให้แสดงผลเฉพาะตรงเส้นขอบ ส่วนตรงเนื้อหาด้านในปล่อยทะลุว่างเปล่า */
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    
+    animation: goldBorderRun 4s linear infinite;
+    pointer-events: none;
+}
+
+/* ลงทะเบียนตัวแปรองศาสำหรับแอนิเมชันหมุน */
+@property --angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
+/* แอนิเมชันสั่งหมุนองศาเพื่อให้แสงวิ่งวนรอบขอบ */
+@keyframes goldBorderRun {
+    to { transform: rotate(0deg); --angle: 360deg; }
+}
+
+/* --- แอนิเมชันสั่งให้เอฟเฟกต์คลื่นแสงเคลื่อนพาดผ่านตัวกระจกฝ้า --- */
+@keyframes textBgWave {
+    0% {
+        background-position: -150% 0, 0 0;
+    }
+    30%, 100% {
+        background-position: 250% 0, 0 0; /* วิ่งผ่านจากซ้ายทะลุไปขวาแล้วหน่วงเวลาก่อนเริ่มรอบใหม่ */
+    }
+}
+
+/* ==========================================
+   โครงสร้างรายละเอียดข้อความด้านใน (คงเดิม)
+   ========================================== */
+.advisor-tag {
+    font-size: 0.8rem;
+    color: #ffd700; /* สีทอง */
+    letter-spacing: 2px;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.advisor-display-name {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin: 0 0 5px 0;
+    color: #fff;
+}
+
+.advisor-display-role {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+}
+
+.advisor-display-divider {
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(90deg, #ffd700, #b8860b);
+    margin: 20px 0;
+    border-radius: 2px;
+}
+
+.advisor-display-bio {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.7;
+    margin: 0;
+    font-weight: 300;
+}
+
+/* ปรับปรุงเมื่อแสดงผลบนหน้าจอมือถือ */
+@media (max-width: 768px) {
+    .advisor-display-info {
+        text-align: center;     
+        padding: 25px 20px; 
+        width: 100%;            
+        max-width: 90%;
+        border-radius: 24px;
+    }
+    .advisor-display-info::before {
+        border-radius: 24px;
+    }
+    .advisor-display-divider {
+        margin: 15px auto;
+    }
+}
+
+/* ปรับหน้าตาเวลาเปิดผ่านจอมือถือ (Responsive) */
+@media (max-width: 768px) {
+    .advisor-showcase-section {
+        height: 100dvh; 
+        justify-content: flex-start;
+        padding-top: 90px;
+        padding-bottom: 30px;
+        
+        /* 🌟 เพิ่มคำสั่งนี้เพื่อตัดวงจรการส่งต่อแรงสกรอลล์ */
+        overscroll-behavior-y: auto; 
+        
+        /* หรือถ้าหน้าอื่นใช้ระบบเลื่อนแบบ Fullpage แนะนำให้ปิดสกรอลล์แนวตั้งตรงนี้เลย */
+        /* overflow-y: hidden; */ 
+    }
+    .advisor-display-container {
+        flex-direction: column;
+        gap: 25px;
+        text-align: center;
+    }
+    .advisor-display-profile {
+        flex: 0 0 280px;
+        width: 100%;
+        height: 360px;
+        margin-top: 35px;
+        margin-bottom: -80px;
+
+        /* ปรับระดับการเฟดบนมือถือให้ขยับขึ้นมาอีกนิดเพื่อความสวยงาม */
+        -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+        mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+    }
+    .advisor-display-info {
+        text-align: center;
+    }
+    .advisor-display-name {
+        font-size: 1.8rem;
+    }
+    .advisor-display-divider {
+        margin: 15px auto;
+    }
+}
+
+/* ----------------------------------------------------
+   [UI เลเยอร์พื้นหลังแบบรูปภาพเต็มจอ Fullscreen Backplate]
+   ---------------------------------------------------- */
+.policy-immersive-section {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 60px 20px;
+}
+
+.policy-bg-container {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.policy-fullscreen-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    
+    /* 🛠️ ปรับความเบลอตรงนี้ (เลขมากยิ่งเบลอมาก, ถ้าไม่ชอบเบลอเปลี่ยนเป็น 0px หรือลบออกได้) */
+    filter: blur(8px);
+    
+    /* ขยายรูปขึ้นเล็กน้อยเพื่อซ่อนขอบขาวที่เกิดจากการเบลอ */
+    transform: scale(1.05); 
+}
+
+/* ตัวเคลือบหน้าจอให้มืดลงเพื่อดันให้ข้อความและกล่องกระจกฝ้าสว่างอ่านง่าย */
+.policy-bg-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* 🛠️ ปรับความสว่างที่เลข 0.5 (ยิ่งน้อย ภาพยิ่งสว่าง) */
+    background-color: rgba(6, 8, 12, 0.6); 
+}
+
+/* คอนเทนเนอร์หลักคุมสัดส่วนหน้าจอนโยบาย */
+.policy-immersive-container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1100px; /* ขยายขนาดใหญ่เต็มพิกัดโชว์ความอลังการ */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+}
+
+/* ----------------------------------------------------
+   ส่วนหัวข้อดีไซน์โมเดิร์น
+   ---------------------------------------------------- */
+.policy-modern-header {
+    text-align: center;
+    margin-top: 80px;
+}
+
+.policy-main-title {
+    font-size: 3rem;
+    font-weight: 800;
+    letter-spacing: 4px;
+    background: linear-gradient(135deg, #ffffff 40%, #ffd700 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0 0 12px 0;
+}
+
+.policy-title-line {
+    width: 120px;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #ffd700, transparent);
+    margin: 0 auto 15px auto;
+    border-radius: 2px;
+}
+
+.policy-main-subtitle {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 300;
+    margin: 0;
+}
+
+/* ----------------------------------------------------
+   [กล่องนโยบายขนาดใหญ่ยักษ์ Premium Giant Card]
+   ---------------------------------------------------- */
+.policy-giant-wrapper {
+    position: relative;
+    width: 100%;
+    min-height: 400px; /* เพิ่มพื้นที่ความสูงรองรับหน้าจอคอมพิวเตอร์และแท็บเล็ต */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.policy-slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 50px 60px; /* เว้นพื้นที่ให้หรูหรามีระดับ */
+    border-radius: 32px; /* เพิ่มความโค้งมนให้พรีเมียมมากขึ้น */
+    
+    /* กระจกฝ้าขั้นสูง (โปร่งแสงมองทะลุเห็นรูปภาพฉากหลังได้ 100%) */
+    background: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 2px solid transparent;
+    
+    /* สถานะซ่อนการ์ด */
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+    visibility: hidden;
+    transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
+                transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
+                visibility 0.6s;
+    
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5),
+                0 0 40px rgba(212, 175, 55, 0.1);
+                
+    /* ใช้เทคนิคพิเศษกักคลื่นแสงให้อยู่ในการ์ดโดยไม่ตัดขอบแสงสีทอง */
+    clip-path: inset(0 round 32px);
+}
+
+/* เมื่อสไลด์ทำงาน (.active) */
+.policy-slide.active {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    visibility: visible;
+    
+    /* แอนิเมชันคลื่นแสงวิ่งพาดผ่านกระจกฝ้า */
+    animation: premiumBgWave 7s ease-in-out infinite;
+    background: linear-gradient(
+                    115deg, 
+                    transparent 35%, 
+                    rgba(255, 215, 0, 0.03) 42%, 
+                    rgba(255, 255, 255, 0.22) 50%, 
+                    rgba(255, 215, 0, 0.03) 58%, 
+                    transparent 65%
+                ) -150% 0 / 200% 100% no-repeat, 
+                rgba(15, 23, 42, 0.45);
+}
+
+/* เอฟเฟกต์ปลอกขอบทองวิ่งรอบกรอบ (อยู่ครบไม่หายแน่นอน) */
+.policy-slide.active::before {
+    content: '';
+    position: absolute;
+    inset: -2px; 
+    border-radius: 32px; 
+    padding: 2px;
+    
+    background: conic-gradient(
+        from var(--angle, 0deg),
+        transparent, 
+        rgba(212, 175, 55, 0.1) 30%, 
+        #ffd700 50%, 
+        rgba(212, 175, 55, 0.1) 70%, 
+        transparent
+    );
+    
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    
+    animation: goldBorderRun 4.5s linear infinite;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.policy-slide > * {
+    position: relative;
+    z-index: 3;
+}
+
+/* จัด Layout แบบ Grid แบ่งฝั่ง ซ้าย-ขวา ภายในตัวสไลด์ */
+.slide-grid-layout {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 40px;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.slide-left-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    position: relative;
+}
+
+/* ----------------------------------------------------
+   องค์ประกอบดีไซน์ภายในกล่องนโยบาย
+   ---------------------------------------------------- */
+.policy-number {
+    font-size: 5.5rem;
+    font-weight: 900;
+    line-height: 1;
+    background: linear-gradient(180deg, rgba(255, 215, 0, 0.3) 0%, rgba(255, 215, 0, 0) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: 'Kanit', sans-serif;
+}
+
+.policy-icon-wrap {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #ffd700 0%, #b8860b 100%);
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    color: #0f172a;
+    box-shadow: 0 12px 30px rgba(212, 175, 55, 0.35);
+}
+
+.policy-content {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px; /* จัดระยะห่างระหว่างหัวข้อกับคำอธิบายให้สมดุล */
+}
+
+.policy-content h3 {
+    font-size: 2.6rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin: 0;
+    
+    /* ไล่เฉดสีทองแชมเปญแบบพรีเมียม */
+    background: linear-gradient(135deg, #ffffff 0%, #ffd700 50%, #f39c12 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
+    /* เพิ่มเงาซ้อนข้างหลังให้ข้อความดูลอยเด่นออกมาจากพื้นหลังกระจกฝ้า */
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+    
+    /* แอนิเมชันเบาๆ เวลาการ์ดแสดงผล */
+    animation: textGlowUp 0.8s ease-out forwards;
+}
+
+.policy-content p {
+    font-size: 1.25rem;
+    color: #f8fafc; /* สีขาวนวล (Slate 50) ช่วยลดความล้าของสายตา */
+    line-height: 1.85; /* เพิ่มความห่างระหว่างบรรทัดให้ไม่เบียดกันเกินไป */
+    margin: 0;
+    font-weight: 300;
+    opacity: 0.9;
+    letter-spacing: 0.2px;
+    
+    /* เทคนิคกระจายคำให้ลงตัวในภาษาไทย */
+    text-align: justify;
+    text-justify: inter-word;
+    
+    /* ป้องกันตัวอักษรกลืนไปกับฉากหลัง */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.policy-content p strong {
+    color: #ffd700;
+    font-weight: 600;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+/* ----------------------------------------------------
+   [ส่วนควบคุมควบคุมดีไซน์ล้ำสมัย]
+   ---------------------------------------------------- */
+.policy-modern-controls {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-top: 10px;
+}
+
+.policy-nav-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 215, 0, 0.25);
+    background: rgba(15, 23, 42, 0.6);
+    color: #ffd700;
+    font-size: 1.3rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    backdrop-filter: blur(8px);
+}
+
+.policy-nav-btn:hover {
+    background: #ffd700;
+    color: #0f172a;
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.45);
+    transform: translateY(-3px);
+    border-color: #ffd700;
+}
+
+.policy-dots-indicator {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.policy-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.25);
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.policy-dot.active {
+    background: #ffd700;
+    width: 36px; /* ดึงขนาดยาวเท่ๆ ยุคใหม่ */
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+}
+
+/* ----------------------------------------------------
+   ระบบแอนิเมชันความเร็วสูง
+   ---------------------------------------------------- */
+@property --angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
+@keyframes goldBorderRun {
+    to { transform: rotate(0deg); --angle: 360deg; }
+}
+
+@keyframes premiumBgWave {
+    0% { background-position: -150% 0, 0 0; }
+    22%, 100% { background-position: 250% 0, 0 0; }
+}
+
+/* ----------------------------------------------------
+   [Responsive] ปรับแต่งแบบเต็มพิกัดบนหน้าจอมือถือ
+   ---------------------------------------------------- */
+@media (max-width: 900px) {
+    .policy-giant-wrapper {
+        min-height: 520px;
+    }
+    .slide-grid-layout {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        text-align: center;
+    }
+    .slide-left-zone {
+        flex-direction: row-reverse;
+        justify-content: center;
+        gap: 25px;
+    }
+    .policy-number {
+        font-size: 3.5rem;
+        background: none;
+        -webkit-text-fill-color: rgba(255, 215, 0, 0.4);
+    }
+    .policy-icon-wrap {
+        width: 65px;
+        height: 65px;
+        font-size: 1.8rem;
+        border-radius: 18px;
+    }
+    .policy-content {
+        text-align: center;
+        gap: 8px;
+    }
+    .policy-content h3 {
+        font-size: 2rem;
+        background: linear-gradient(135deg, #ffffff 20%, #ffd700 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .policy-content p {
+        font-size: 1.1rem;
+        line-height: 1.7;
+        text-align: center; /* บนมือถือจัดกึ่งกลางจะอ่านง่ายกว่า */
+    }
+}
+
+@media (max-width: 600px) {
+    .policy-immersive-section {
+        padding: 40px 15px;
+    }
+    .policy-main-title {
+        font-size: 2.2rem;
+    }
+    .policy-main-subtitle {
+        font-size: 1rem;
+    }
+    .policy-giant-wrapper {
+        min-height: 580px;
+    }
+    .policy-slide {
+        padding: 35px 20px;
+        border-radius: 24px;
+        clip-path: inset(0 round 24px);
+    }
+    .policy-slide.active::before {
+        border-radius: 24px;
+    }
+    .policy-nav-btn {
+        width: 50px;
+        height: 50px;
+        border-radius: 15px;
+    }
+}
+
+/* ==========================================================================
+   KC CARD SPECIFIC STYLES (NO CLASH GUARANTEE)
+   ========================================================================== */
+
+/* ตัวกรอบสไลด์หลัก */
+.kc-card-slide {
+    display: none; /* ซ่อนไว้ก่อนสลับการทำงาน */
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* คลาสสำหรับสไลด์ที่กำลังแสดงผลอยู่ */
+.kc-card-slide.kc-is-active {
+    display: block;
+    opacity: 1;
+}
+
+/* การจัดบล็อกซ้ายขวาภายใน */
+.kc-card-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 24px;
+    align-items: center;
+}
+
+/* บล็อกจัดตำแหน่งฝั่งตัวเลขและไอคอน */
+.kc-card-side-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 100px;
+}
+
+/* ตัวเลขนโยบาย (สไตล์หรูหราแบบ Outline มีมิติ) */
+.kc-info-badge-number {
+    font-size: 5.5rem;
+    font-weight: 900;
+    line-height: 1;
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(180deg, #ffd700 0%, rgba(255, 215, 0, 0.1) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 10px rgba(212, 175, 55, 0.2));
+}
+
+/* กรอบครอบไอคอน */
+.kc-info-icon-box {
+    font-size: 1.8rem;
+    color: #ffd700;
+    margin-top: 5px;
+    filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.5));
+}
+
+/* บล็อกจัดการข้อความ */
+.kc-info-text-block {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: left;
+}
+
+/* หัวข้อนโยบาย (ไล่เฉดทองแชมเปญเรืองแสง) */
+.kc-info-title {
+    font-size: 2.4rem;
+    font-weight: 700;
+    margin: 0;
+    background: linear-gradient(135deg, #ffffff 0%, #ffd700 60%, #f39c12 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.4));
+}
+
+/* รายละเอียดนโยบาย (อ่านง่าย สบายตา สไตล์โมเดิร์น) */
+.kc-info-desc {
+    font-size: 1.2rem;
+    color: #f1f5f9;
+    line-height: 1.8;
+    margin: 0;
+    font-weight: 300;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+/* ==========================================================================
+   RESPONSIVE (รองรับการแสดงผลบนมือถือ)
+   ========================================================================== */
+@media (max-width: 768px) {
+    .kc-card-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    .kc-card-side-zone {
+        min-width: auto;
+    }
+    .kc-info-badge-number {
+        font-size: 4rem;
+    }
+    .kc-info-text-block {
+        text-align: center;
+    }
+    .kc-info-title {
+        font-size: 1.9rem;
+    }
+    .kc-info-desc {
+        font-size: 1.05rem;
+        line-height: 1.7;
+        text-align: center;
+    }
+}
+
+/* ==========================================================================
+   PREVIEW BUTTON STYLES (FOR KC SMART & KC MARKET)
+   ========================================================================== */
+
+/* บล็อกจัดการระนาบปุ่ม */
+.kc-btn-action-zone {
+    margin-top: 15px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+/* ดีไซน์ตัวปุ่มหลัก */
+.kc-btn-preview {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #ffffff;
+    text-decoration: none;
+    
+    /* สไตล์กระจกโปร่งใสขอบทอง */
+    background: rgba(255, 215, 0, 0.08);
+    border: 1px solid rgba(255, 215, 0, 0.4);
+    border-radius: 30px;
+    
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+/* ไอคอนแว่นขยายภายในปุ่ม */
+.kc-btn-preview i {
+    font-size: 0.95rem;
+    color: #ffd700;
+    transition: transform 0.3s ease;
+}
+
+/* เอฟเฟกต์เมื่อ Hover (เอาเมาส์มาชี้) */
+.kc-btn-preview:hover {
+    color: #000000; /* เปลี่ยนสีตัวอักษรเป็นสีเข้มเพื่อให้เด่นบนพื้นทอง */
+    background: #ffd700; /* พื้นหลังเปลี่ยนเป็นสีทองเต็มผืน */
+    border-color: #ffd700;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6); /* เอฟเฟกต์เรืองแสงสีทองกระจายออก */
+    transform: translateY(-2px); /* ปุ่มลอยขึ้นเล็กน้อยเพิ่มมิติ */
+}
+
+/* เอฟเฟกต์เฉพาะไอคอนเมื่อ Hover */
+.kc-btn-preview:hover i {
+    color: #000000;
+    transform: scale(1.1);
+}
+
+/* เมื่อกดคลิก (Active State) */
+.kc-btn-preview:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 8px rgba(255, 215, 0, 0.4);
+}
+
+/* ปรับแต่งปุ่มเมื่อแสดงผลบนหน้าจอมือถือ */
+@media (max-width: 768px) {
+    .kc-btn-action-zone {
+        justify-content: center; /* จัดให้อยู่กึ่งกลางหน้าจอตามบล็อกข้อความ */
+        margin-top: 12px;
+    }
+    .kc-btn-preview {
+        padding: 8px 18px;
+        font-size: 0.95rem;
+    }
+}
+
+/* ==========================================================================
+   MODERN CONTROLS & DOTS INDICATOR STYLES
+   ========================================================================= */
+
+/* กล่องครอบภายนอกสุด (จัดให้อยู่กึ่งกลางแนวนอน และเว้นระยะห่างจากกล่องข้อความ) */
+.policy-modern-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 28px; /* เพิ่มช่องไฟให้ปุ่มขนาด 50px ดูไม่อึดอัด */
+    margin-top: 35px;
+    user-select: none;
+}
+
+/* --------------------------------------------------------------------------
+   1. BUTTONS STYLES (ปุ่มลูกศร ซ้าย-ขวา)
+   -------------------------------------------------------------------------- */
+
+/* เอฟเฟกต์เมื่อกดปุ่ม */
+.policy-nav-btn:active {
+    transform: scale(0.95);
+}
+
+/* --------------------------------------------------------------------------
+   2. DOTS INDICATOR STYLES (จุดบอกตำแหน่งหน้า)
+   -------------------------------------------------------------------------- */
+/* กล่องรวมจุดกลม */
+.policy-dots-indicator {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* ลักษณะของจุดเริ่มต้น (จุดที่ยังไม่ได้ถูกเลือก) */
+.kc-dot {
+    width: 10px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* เอฟเฟกต์เมื่อเมาส์โฮเวอร์ไปที่จุดเล็กๆ */
+.kc-dot:hover {
+    background: rgba(255, 215, 0, 0.5);
+}
+
+/* 🌟 ไฮไลต์พิเศษ: จุดของหน้าปัจจุบัน (Active State) */
+.kc-dot.kc-is-active {
+    width: 28px; /* ยืดออกเป็นทรงแคปซูลยาว เพิ่มความโมเดิร์นน่ามอง */
+    height: 10px;
+    border-radius: 5px;
+    background: linear-gradient(90deg, #ffd700 0%, #f39c12 100%); /* ไล่เฉดสีทอง */
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.6); /* เปิดเอฟเฟกต์เรืองแสง */
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE (ปรับแต่งบนมือถือ)
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+    .policy-nav-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    .kc-dot {
+        width: 8px;
+        height: 8px;
+    }
+    .kc-dot.kc-is-active {
+        width: 22px;
+        height: 8px;
+    }
+}
+
+/* ==========================================================================
+   MOBILE RESPONSIVE STYLES (KEEP PC LAYOUT - HORIZONTAL GRID)
+   ========================================================================= */
+@media (max-width: 768px) {
+    
+    /* 1. คุมทั้งเซกชันให้อยู่ในหน้าจอพอดี ไม่ให้หน้าใหญ่สกรอลล์ไหล */
+    .policy-immersive-section {
+        position: relative;
+        height: 100dvh;
+        width: 100%;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* จัดระเบียบระยะเยื้อง หัว-กลาง-ท้าย บนหน้าจอมือถือ */
+    .policy-immersive-container {
+        position: relative;
+        z-index: 5;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 30px 16px 20px 16px; /* ลด Padding ลงเพื่อให้เหลือพื้นที่ตรงกลางเยอะขึ้น */
+        box-sizing: border-box;
+    }
+
+    /* 2. พื้นหลังเบลอและปรับโทนความสว่าง */
+    .policy-bg-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        overflow: hidden;
+    }
+
+    .policy-fullscreen-bg {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: blur(8px);
+        transform: scale(1.06);
+    }
+
+    .policy-bg-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(180deg, rgba(15, 23, 42, 0.75) 0%, rgba(6, 8, 12, 0.85) 100%);
+    }
+
+    /* 3. ปรับขนาดส่วนหัวข้อ (Header) ให้กะทัดรัดขึ้น */
+    .policy-modern-header {
+        text-align: center;
+        margin-bottom: 5px; /* ดึงช่องว่างลดลง */
+    }
+
+    .policy-main-title {
+        font-size: 1.5rem !important; /* ย่อขนาดตัวอักษรลง */
+        letter-spacing: 1px;
+        margin: 0 0 4px 0;
+        color: #ffffff;
+    }
+
+    .policy-title-line {
+        width: 45px;
+        height: 2px;
+        background: #ffd700;
+        margin: 0 auto 6px auto;
+    }
+
+    .policy-main-subtitle {
+        font-size: 0.85rem !important;
+        color: rgba(255, 255, 255, 0.6);
+        margin: 0;
+    }
+
+    /* 4. โซนการ์ดตรงกลาง (คงรูปทรงแนวนอนเหมือนใน PC) */
+    .policy-giant-wrapper {
+        position: relative;
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .kc-card-slide {
+        display: none;
+        width: 100%;
+        max-width: 500px; /* ขยายแนวกว้างขึ้นเล็กน้อยเพื่อรองรับ Layout แนวนอน */
+        animation: policyFadeIn 0.3s ease-out forwards;
+        margin-top: -120px;
+    }
+
+    .kc-card-slide.kc-is-active {
+        display: block;
+    }
+
+    /* 🌟 คงความเป็น Grid แนวนอน (ไอคอนซ้าย ข้อความขวา) เหมือนบน PC */
+    .kc-card-grid {
+        background: rgba(15, 23, 42, 0.7) !important;
+        border: 1px solid rgba(255, 215, 0, 0.25) !important;
+        border-radius: 20px !important;
+        padding: 18px; /* ลด Padding ด้านในเพื่อให้การ์ดไม่หนาเกินไป */
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        
+        display: grid !important;
+        grid-template-columns: auto 1fr; /* คอลัมน์แรกขนาดเท่าไอคอน คอลัมน์สองเก็บข้อความ */
+        gap: 16px;
+        align-items: center;
+        text-align: left; /* จัดตัวอักษรชิดซ้ายตามสไตล์ PC */
+    }
+
+    /* โซนฝั่งซ้าย (ไอคอนและตัวเลข) */
+    .kc-card-side-zone {
+        display: flex;
+        flex-direction: column; /* เรียงตัวเลขไว้บนไอคอน หรือไอคอนไว้บนตัวเลขตามดีไซน์ PC */
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        min-width: 55px; /* ล็อกความกว้างฝั่งซ้าย */
+    }
+
+    .kc-info-badge-number {
+        font-size: 1.4rem !important; /* ย่อเลขหน้าลง */
+        font-weight: 700;
+        color: rgba(255, 215, 0, 0.4) !important;
+        line-height: 1;
+    }
+
+    .kc-info-icon-box {
+        width: 44px;
+        height: 44px;
+        background: rgba(255, 215, 0, 0.08);
+        border: 1px solid rgba(255, 215, 0, 0.25);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #ffd700;
+        font-size: 1.2rem;
+    }
+
+    /* โซนฝั่งขวา (ข้อความรายละเอียด) */
+    .kc-info-text-block {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .kc-info-title {
+        font-size: 1.15rem !important;
+        color: #ffffff;
+        margin: 0 0 6px 0;
+        font-weight: 600;
+    }
+
+    .kc-info-desc {
+        font-size: 0.85rem !important;
+        color: rgba(241, 245, 249, 0.85);
+        line-height: 1.45;
+        margin: 0;
+        
+        /* จำกัดความสูงข้อความบนมือถือจอเล็ก ถ้าข้อความยาวไปจะสกรอลล์อ่านในตัวการ์ดได้ */
+        max-height: 95px; 
+        overflow-y: auto;
+        padding-right: 4px;
+        overscroll-behavior: contain; /* ป้องกันการแย่งสกรอลล์หน้าใหญ่ */
+    }
+
+    /* ปุ่มกดลิงก์แอคชันด้านล่างข้อความ */
+    .kc-btn-action-zone {
+        margin-top: 10px;
+    }
+
+    /* 5. ชุดปุ่มนำทางและจุดบอกตำแหน่ง (ขยับขึ้นมากระชับพอดีจอ) */
+
+    /* ดึงดีไซน์ปุ่ม Squircle 50px เดิมของคุณมาย่อขนาดลงเล็กน้อย */
+    .policy-nav-btn {
+        width: 44px !important;
+        height: 44px !important;
+        border-radius: 14px !important;
+        font-size: 1.1rem !important;
+        border: 1px solid rgba(255, 215, 0, 0.25) !important;
+        background: rgba(15, 23, 42, 0.7) !important;
+        color: #ffd700 !important;
+    }
+
+    .policy-dots-indicator {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .kc-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.25);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .kc-dot.kc-is-active {
+        width: 22px;
+        height: 8px;
+        border-radius: 4px;
+        background: #ffd700;
+        border-color: #ffd700;
+        box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+}
+
+@keyframes policyFadeIn {
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@media (max-width: 768px) {
+
+    /* 🌟 1. ปรับกล่องนอกสุด: เปลี่ยนการจัดเรียงจาก space-between เป็นศูนย์รวมตรงกลาง */
+    .policy-immersive-container {
+        position: relative;
+        z-index: 5;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* ดึงทุกอย่างมากองรวมกันตรงกลางจอ */
+        align-items: center;
+        gap: 15px; /* 🛠️ กำหนดระยะห่างระหว่าง (หัวข้อ -> การ์ด -> ปุ่มเลื่อน) ให้กระชับ ชิดกันกำลังสวย */
+        padding: 20px 16px;
+        box-sizing: border-box;
+    }
+
+    /* 🌟 2. ปรับกล่องครอบการ์ด: ปิดการยืดตัว (flex-grow) เพื่อไม่ให้มันถ่างสเปซ */
+    .policy-giant-wrapper {
+        position: relative;
+        flex-grow: 0; /* 🛠️ ล็อกไม่ให้กล่องนี้ยืดขยายไปแย่งพื้นที่จนเกิดช่องว่างกว้าง */
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 5px 0; /* เพิ่ม Margin เล็กน้อยเพื่อความสบายตา */
+    }
+
+    /* ส่วนของหัวข้อ (ลด Margin แถมให้อีกนิดเพื่อความกระชับ) */
+    .policy-modern-header {
+        text-align: center;
+        margin-bottom: 0px; /* เอาขอบสนามด้านล่างออกเพื่อดึงการ์ดขึ้นมา */
+    }
+    
+    /* ส่วนของชุดควบคุมด้านล่าง (ลด Margin เพื่อดึงเข้าหาตัวการ์ด) */
+    .policy-modern-controls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 0px; /* เอาขอบสนามด้านบนออกเพื่อดึงปุ่มขึ้นไปหาการ์ด */
+        width: 100%;
+        margin-top: -55px; /* ดึงปุ่มขึ้นมาใกล้การ์ดมากขึ้นอีกนิด */
+    }
+    /* ==========================================================================
+       🌟 แก้ไขเฉพาะการ์ดนโยบาย (ระเบิดกรอบทิ้ง + ขยายใหญ่เต็มพิกัด)
+       ========================================================================= */
+    
+    /* ตัวกล่องนโยบาย: ปลดดีไซน์แบบตารางเดิมออก แล้วเปลี่ยนเป็นลอยตัวอิสระไม่มีกรอบ */
+    .kc-card-grid {
+        background: transparent !important; /* ❌ ลบพื้นหลังทึบออก */
+        border: none !important;            /* ❌ ลบเส้นขอบออก */
+        padding: 0px !important;            /* ❌ คืนพื้นที่ Padding ให้ขยายได้กว้างที่สุด */
+        backdrop-filter: none !important;
+        box-shadow: none !important;
+        
+        display: flex !important;
+        flex-direction: column !important; /* จัดเรียงข้อความและไอคอนดิ่งลงมาเป็นชั้นๆ */
+        gap: 16px !important;              /* เพิ่มระยะห่างระหว่างชั้นให้โปร่งและอ่านง่าย */
+        align-items: center !important;
+        text-align: center !important;     /* จัดข้อความทุกอย่างให้อยู่กึ่งกลางจออย่างสมดุล */
+    }
+
+    /* 🥇 ชั้นบนสุด: โซนตัวเลขประจำนโยบายและกล่องไอคอนขยับมาคู่กัน */
+    .kc-card-side-zone {
+        display: flex !important;
+        flex-direction: row !important; /* ล็อกให้ตัวเลขและไอคอนอยู่ระนาบเดียวกัน */
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 16px !important;
+        width: 100% !important;
+    }
+
+    /* ตัวเลขหน้านโยบาย (ขยายใหญ่ขึ้นเด่นชัด) */
+    .kc-info-badge-number {
+        font-size: 2.6rem !important; /* 🚀 ขยายตัวเลขให้ใหญ่ชัดเจน */
+        font-weight: 900 !important;
+        color: #ffd700 !important;   /* เร่งเป็นสีทองเหลืองอร่าม */
+        line-height: 1 !important;
+        text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+    }
+
+    /* กล่องครอบไอคอน (ขยายขนาดให้สมมาตรกับตัวเลข) */
+    .kc-info-icon-box {
+        width: 54px !important;  /* 🚀 เพิ่มความกว้างกล่อง */
+        height: 54px !important; /* 🚀 เพิ่มความสูงกล่อง */
+        background: rgba(255, 215, 0, 0.12) !important;
+        border: 1.5px solid rgba(255, 215, 0, 0.4) !important;
+        border-radius: 16px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        color: #ffd700 !important;
+        font-size: 1.4rem !important; /* 🚀 ขยายตัวไอคอนด้านใน */
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+    }
+
+    /* กล่องข้อความนโยบาย */
+    .kc-info-text-block {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        width: 100% !important;
+    }
+
+    /* 🥈 ชั้นกลาง: ชื่อนโยบายหลัก */
+    .kc-info-title {
+        font-size: 1.5rem !important; /* 🚀 ดันขนาดชื่อหัวข้อนโยบายให้ใหญ่หนาเต็มตา */
+        color: #ffffff !important;
+        margin: 0 0 12px 0 !important;
+        font-weight: 700 !important;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    }
+
+    /* 🥉 ชั้นล่างสุด: รายละเอียดเนื้อหาของนโยบาย */
+    .kc-info-desc {
+        font-size: 1rem !important; /* 🚀 ปรับขนาดฟอนต์คำอธิบายขึ้นมาให้อ่านง่ายเท่าคอมพิวเตอร์ */
+        color: rgba(248, 250, 252, 0.95) !important; /* เร่งความสว่างอักษรให้อ่านง่ายขึ้นแม้อยู่บนพื้นหลังเบลอ */
+        line-height: 1.6 !important;
+        margin: 0 !important;
+        
+        /* ขยายพื้นที่และล็อกความสูงสูงสุดสำหรับการเลื่อนอ่านกรณีเนื้อหาค่อนข้างยาว */
+        max-height: 160px !important; 
+        overflow-y: auto !important;
+        padding: 0 6px !important;
+        overscroll-behavior: contain !important;
+    }
+
+    /* โซนปุ่มลิงก์แอกชัน (ถ้ามี) */
+    .kc-btn-action-zone {
+        margin-top: 14px !important;
+        width: 100% !important;
+        display: flex !important;
+        justify-content: center !important;
+    }
+
 }
 
