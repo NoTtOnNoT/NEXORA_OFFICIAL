@@ -3924,3 +3924,76 @@ input, textarea {
         ) !important;
     }
 }
+
+.hero-bg-container {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: -999 !important;
+}
+
+/* คุมให้รูปภาพในทุกอุปกรณ์ (รวมถึงในแท็ก picture) แสดงผลเต็มจอไม่บิดเบี้ยว */
+.hero-bg-container picture,
+.hero-bg-container source {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+}
+
+/* 💻 1. ปรับความเบลอสำหรับหน้าจอคอมพิวเตอร์ (Desktop) */
+.hero-fullscreen-bg {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    
+    /* ⚙️ ปรับเพิ่มจาก 8px เป็น 20px เพื่อความเนียนฟุ้งขั้นสุด */
+    filter: blur(20px) !important;       
+    
+    /* 🪄 เพิ่มขนาดจาก 1.05 เป็น 1.12 เพื่อดันขอบขาวจากการเบลอให้พ้นขอบจอคอม */
+    transform: scale(1.12) !important;  
+}
+
+/* แผ่นเลเยอร์สีดำสำหรับหน้าจอคอมพิวเตอร์ */
+.hero-bg-overlay {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: linear-gradient(
+        180deg, 
+        rgba(0, 0, 0, 0.80) 0%,   
+        rgba(0, 0, 0, 0.65) 50%, 
+        rgba(0, 0, 0, 0.85) 100%
+    ) !important;
+}
+
+
+/* ==========================================
+   📱 📱 โค้ดปรับแต่งเฉพาะสำหรับหน้าจอมือถือ (Mobile CSS)
+   ========================================== */
+@media screen and (max-width: 768px) {
+    
+    /* 📱 2. ปรับความเบลอสำหรับหน้าจอมือถือ */
+    .hero-fullscreen-bg {
+        /* ⚙️ ปรับเพิ่มจาก 5px เป็น 15px ให้เบลอสะใจนุ่มนวลตา */
+        filter: blur(15px) !important;       
+        
+        /* 🪄 เพิ่มขนาดจาก 1.04 เป็น 1.10 เพื่อดันขอบขาวให้พ้นขอบจอมือถือ */
+        transform: scale(1.10) !important;
+    }
+
+    /* แผ่นเลเยอร์สีดำบนมือถือ */
+    .hero-bg-overlay {
+        background: linear-gradient(
+            180deg, 
+            rgba(0, 0, 0, 0.85) 0%,   
+            rgba(0, 0, 0, 0.70) 50%, 
+            rgba(0, 0, 0, 0.90) 100%  
+        ) !important;
+    }
+}

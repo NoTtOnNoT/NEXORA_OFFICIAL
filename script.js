@@ -542,7 +542,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let currentIndex = 0;
     let autoPlayTimer = null;
-    const AUTO_PLAY_INTERVAL = 4000; // ⏱️ เลื่อนอัตโนมัติทุกๆ 4 วินาที
+    const AUTO_PLAY_INTERVAL = 9000; // ⏱️ เลื่อนอัตโนมัติทุกๆ 9 วินาที
 
     // ตัวแปรควบคุมระบบตรวจจับการปัด (Swipe & Drag)
     let startX = 0;
